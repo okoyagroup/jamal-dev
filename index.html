@@ -27,18 +27,23 @@
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
   ::selection{background:var(--accent);color:#fff}
-
   ::-webkit-scrollbar{width:0;background:transparent}
+
+  /* ============ NOISE TEXTURE ============ */
+  .noise{position:fixed;inset:0;pointer-events:none;z-index:9000;opacity:.035;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
 
   /* ============ PRELOADER ============ */
   .preloader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:40px}
   .preloader-logo{font-family:'Space Grotesk';font-size:clamp(28px,4vw,48px);font-weight:500;letter-spacing:-.02em;display:flex;gap:12px;align-items:center;overflow:hidden}
   .preloader-logo .mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));position:relative;flex-shrink:0}
   .preloader-logo .mark::after{content:'';position:absolute;inset:8px;background:var(--bg);border-radius:4px}
-  .preloader-text{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-mute);overflow:hidden}
+  .preloader-text{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-mute);overflow:hidden;transition:opacity .3s}
   .preloader-text span{display:inline-block}
   .preloader-bar{width:240px;height:1px;background:var(--line);position:relative;overflow:hidden}
   .preloader-bar::after{content:'';position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));animation:load 2.2s cubic-bezier(.7,0,.3,1) forwards}
+  .preloader-counter{position:absolute;bottom:40px;right:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;color:var(--text-mute)}
   @keyframes load{to{width:100%}}
 
   /* ============ CUSTOM CURSOR ============ */
@@ -46,6 +51,7 @@
   .cursor-dot{width:6px;height:6px;background:#fff;transition:width .3s,height .3s,opacity .3s}
   .cursor-ring{width:40px;height:40px;border:1px solid rgba(255,255,255,0.4);transition:width .4s cubic-bezier(.2,.8,.2,1),height .4s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s,opacity .3s}
   .cursor-ring.hover{width:80px;height:80px;border-color:var(--accent);background:rgba(79,124,255,0.06)}
+  .cursor-ring.view{width:100px;height:100px;border-color:var(--accent);background:rgba(79,124,255,0.08)}
   .cursor-dot.hover{width:0;height:0;opacity:0}
   .cursor-ring.click{transform:translate(-50%,-50%) scale(.75)}
   .cursor-label{position:fixed;top:0;left:0;pointer-events:none;z-index:9998;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text);opacity:0;transition:opacity .3s;transform:translate(-50%,-50%);mix-blend-mode:difference}
@@ -91,12 +97,13 @@
   #heroCanvas{position:absolute;inset:0;z-index:1}
   .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:1000px;background:radial-gradient(circle,rgba(79,124,255,0.18) 0%,rgba(139,92,246,0.08) 30%,transparent 70%);pointer-events:none;z-index:2;filter:blur(60px)}
   .hero-content{position:relative;z-index:3;max-width:1400px;width:100%;text-align:center;padding:0 48px}
-  .hero-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border:1px solid var(--line-2);border-radius:100px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:40px;background:rgba(255,255,255,0.02);backdrop-filter:blur(10px)}
+  .hero-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border:1px solid var(--line-2);border-radius:100px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:40px;background:rgba(255,255,255,0.02);backdrop-filter:blur(10px);opacity:0;transform:translateY(20px)}
   .hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .hero h1{font-family:'Space Grotesk';font-weight:500;font-size:clamp(52px,10vw,160px);line-height:.92;letter-spacing:-.04em;margin-bottom:40px}
   .hero h1 .line{display:block;overflow:hidden}
-  .hero h1 .line-inner{display:inline-block;transform:translateY(110%);will-change:transform}
+  .hero h1 .line-inner{display:inline-block;will-change:transform}
+  .hero h1 .char{display:inline-block;transform:translateY(110%);will-change:transform}
   .hero h1 .italic{font-style:italic;font-weight:300;background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .hero p{max-width:620px;margin:0 auto 48px;font-size:clamp(15px,1.3vw,18px);color:var(--text-dim);line-height:1.6;font-weight:300;opacity:0;transform:translateY(20px)}
   .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:80px;opacity:0;transform:translateY(20px)}
@@ -121,7 +128,8 @@
   .section-label::before{content:'';width:30px;height:1px;background:var(--accent)}
   .section-title{font-family:'Space Grotesk';font-weight:500;font-size:clamp(40px,6vw,88px);line-height:1;letter-spacing:-.03em}
   .section-title .line{display:block;overflow:hidden}
-  .section-title .line-inner{display:inline-block;transform:translateY(110%);will-change:transform}
+  .section-title .line-inner{display:inline-block;will-change:transform}
+  .section-title .char{display:inline-block;will-change:transform}
   .section-title em{font-style:italic;font-weight:300;color:var(--text-dim)}
   .section-desc{color:var(--text-dim);font-size:16px;line-height:1.7;max-width:480px}
 
@@ -152,10 +160,13 @@
   .founder-role{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
   .founder-quote{font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic;border-left:2px solid var(--accent);padding-left:20px}
 
-  /* ============ CAPABILITIES ============ */
-  .capabilities{padding:180px 0;background:var(--bg-2);position:relative}
-  .capabilities-head{margin-bottom:100px;display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap}
-  .capabilities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  /* ============ CAPABILITIES (pinned) ============ */
+  .capabilities{background:var(--bg-2);position:relative;overflow:hidden}
+  .capabilities-wrapper{display:flex;flex-direction:column}
+  .capabilities-head{padding:140px 0 80px}
+  .capabilities-head-inner{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap}
+  .capabilities-sticky{position:relative}
+  .capabilities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden;padding:80px 0}
   .cap{background:var(--bg);padding:48px 36px;transition:all .5s;position:relative;overflow:hidden;min-height:360px;display:flex;flex-direction:column;justify-content:space-between}
   .cap::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,124,255,0.08),transparent 60%);opacity:0;transition:opacity .5s}
   .cap:hover::before{opacity:1}
@@ -172,23 +183,24 @@
   /* ============ PROJECTS HORIZONTAL ============ */
   .projects{position:relative;background:var(--bg);overflow:hidden}
   .projects-wrapper{display:flex;flex-direction:column}
-  .projects-head{padding:180px 0 80px;display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap}
+  .projects-head{padding:180px 0 80px}
   .projects-head .container{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;width:100%;max-width:1400px;margin:0 auto;padding:0 48px}
   .projects-track{display:flex;gap:32px;padding:40px 48px 180px;will-change:transform}
   .project-card{flex:0 0 520px;height:640px;border:1px solid var(--line);border-radius:24px;overflow:hidden;position:relative;background:var(--surface);transition:all .6s cubic-bezier(.2,.8,.2,1);cursor:none}
   .project-card:hover{border-color:var(--accent);transform:translateY(-8px)}
-  .project-visual{position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,124,255,0.1),rgba(139,92,246,0.05));overflow:hidden}
+  .project-visual{position:absolute;inset:0;overflow:hidden;background:linear-gradient(135deg,rgba(79,124,255,0.1),rgba(139,92,246,0.05))}
   .project-visual::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:40px 40px}
   .project-visual .orb{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(60px);opacity:.6;transition:transform .8s}
   .project-card:hover .project-visual .orb{transform:scale(1.2)}
-  .project-content{position:absolute;inset:0;padding:40px;display:flex;flex-direction:column;justify-content:space-between;z-index:2}
+  .project-visual svg{position:absolute;inset:0;width:100%;height:100%;opacity:.7}
+  .project-content{position:absolute;inset:0;padding:40px;display:flex;flex-direction:column;justify-content:space-between;z-index:2;background:linear-gradient(180deg,transparent 40%,rgba(5,6,10,0.9) 100%)}
   .project-top{display:flex;justify-content:space-between;align-items:flex-start}
   .project-num{font-family:'JetBrains Mono';font-size:12px;color:var(--text-mute);letter-spacing:.1em}
-  .project-year{font-family:'JetBrains Mono';font-size:12px;color:var(--text-mute);letter-spacing:.1em;padding:6px 12px;border:1px solid var(--line-2);border-radius:100px}
+  .project-year{font-family:'JetBrains Mono';font-size:12px;color:var(--text-mute);letter-spacing:.1em;padding:6px 12px;border:1px solid var(--line-2);border-radius:100px;backdrop-filter:blur(10px);background:rgba(0,0,0,0.3)}
   .project-bottom h3{font-family:'Space Grotesk';font-size:36px;font-weight:500;margin-bottom:12px;letter-spacing:-.02em;line-height:1.1}
   .project-bottom p{font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:20px;max-width:380px}
   .project-cat{font-family:'JetBrains Mono';font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase}
-  .project-arrow{position:absolute;bottom:40px;right:40px;width:56px;height:56px;border:1px solid var(--line-2);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .4s;background:rgba(0,0,0,0.3);backdrop-filter:blur(10px)}
+  .project-arrow{position:absolute;bottom:40px;right:40px;width:56px;height:56px;border:1px solid var(--line-2);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .4s;background:rgba(0,0,0,0.3);backdrop-filter:blur(10px);z-index:3}
   .project-card:hover .project-arrow{background:var(--accent);border-color:var(--accent);transform:rotate(-45deg)}
   .project-arrow svg{width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none}
 
@@ -200,7 +212,6 @@
   .step{position:relative;padding:60px 28px 0;border-left:1px solid var(--line);padding-left:28px}
   .step:first-child{border-left:none;padding-left:0}
   .step-dot{position:absolute;top:16px;left:-9px;width:18px;height:18px;border-radius:50%;background:var(--bg-2);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;transition:all .4s;z-index:2}
-  .step:first-child .step-dot{left:-9px}
   .step-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .4s}
   .step:hover .step-dot{border-color:var(--accent);box-shadow:0 0 30px var(--accent-soft)}
   .step:hover .step-dot::after{opacity:1}
@@ -230,7 +241,8 @@
   .contact-wrap{text-align:center;position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 48px}
   .contact h2{font-family:'Space Grotesk';font-size:clamp(56px,10vw,160px);font-weight:500;line-height:.95;letter-spacing:-.04em;margin-bottom:48px}
   .contact h2 .line{display:block;overflow:hidden}
-  .contact h2 .line-inner{display:inline-block;transform:translateY(110%)}
+  .contact h2 .line-inner{display:inline-block;will-change:transform}
+  .contact h2 .char{display:inline-block;will-change:transform}
   .contact h2 em{font-style:italic;font-weight:300;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .contact > .contact-wrap > p{max-width:560px;margin:0 auto 56px;font-size:17px;color:var(--text-dim);line-height:1.7}
   .contact-email{display:inline-flex;align-items:center;gap:16px;padding:22px 40px;border:1px solid var(--line-2);border-radius:100px;font-family:'Space Grotesk';font-size:22px;color:var(--text);transition:all .4s;background:rgba(255,255,255,0.02);backdrop-filter:blur(10px);margin-bottom:80px}
@@ -257,6 +269,9 @@
   .big-text-inner{font-family:'Space Grotesk';font-size:clamp(60px,14vw,220px);font-weight:500;letter-spacing:-.04em;line-height:.9;white-space:nowrap;will-change:transform;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.2)}
   .big-text-inner em{font-style:italic;-webkit-text-stroke-color:var(--accent);color:transparent}
 
+  /* ============ SECTION TRANSITION OVERLAPS ============ */
+  .section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 20%,var(--line-2) 80%,transparent);position:relative;z-index:3}
+
   /* ============ RESPONSIVE ============ */
   @media (max-width:1024px){
     .about-head,.about-grid,.founder-wrap{grid-template-columns:1fr;gap:60px}
@@ -280,10 +295,14 @@
     footer{padding:40px 24px}
     .contact-email{font-size:16px;padding:16px 24px}
     .about,.capabilities,.process,.founder,.contact{padding:120px 0}
+    .preloader-counter{right:24px}
   }
 </style>
 </head>
 <body>
+
+<!-- Noise overlay -->
+<div class="noise"></div>
 
 <!-- Preloader -->
 <div class="preloader" id="preloader">
@@ -293,6 +312,7 @@
   </div>
   <div class="preloader-text"><span id="preloaderText">Initializing digital environment</span></div>
   <div class="preloader-bar"></div>
+  <div class="preloader-counter" id="preloaderCounter">00</div>
 </div>
 
 <!-- Custom Cursor -->
@@ -315,6 +335,7 @@
     <a href="#capabilities">Capabilities</a>
     <a href="#projects">Projects</a>
     <a href="#process">Process</a>
+    <a href="#founder">Founder</a>
     <a href="#contact">Contact</a>
     <a href="#contact" class="nav-cta">Start a Project</a>
   </div>
@@ -329,7 +350,7 @@
   <div class="hero-glow" id="heroGlow"></div>
   <div class="hero-content" id="heroContent">
     <div class="hero-tag"><span class="dot"></span> Digital Development Studio · Est. 2026</div>
-    <h1 id="heroTitle">
+    <h1 id="heroTitle" data-split-chars>
       <span class="line"><span class="line-inner">WE BUILD</span></span>
       <span class="line"><span class="line-inner italic">WHAT'S</span></span>
       <span class="line"><span class="line-inner">NEXT.</span></span>
@@ -372,7 +393,7 @@
     <div class="about-head">
       <div>
         <div class="section-label">01 — About the Studio</div>
-        <h2 class="section-title" data-split>
+        <h2 class="section-title" data-split-chars>
           <span class="line"><span class="line-inner">Engineering</span></span>
           <span class="line"><span class="line-inner"><em>the future</em> of</span></span>
           <span class="line"><span class="line-inner">digital products.</span></span>
@@ -409,71 +430,77 @@
 
 <!-- CAPABILITIES -->
 <section class="capabilities" id="capabilities">
-  <div class="container">
+  <div class="capabilities-wrapper">
     <div class="capabilities-head">
-      <div>
-        <div class="section-label">02 — Capabilities</div>
-        <h2 class="section-title" data-split>
-          <span class="line"><span class="line-inner">Full-spectrum</span></span>
-          <span class="line"><span class="line-inner"><em>digital</em> engineering.</span></span>
-        </h2>
+      <div class="container capabilities-head-inner">
+        <div>
+          <div class="section-label">02 — Capabilities</div>
+          <h2 class="section-title" data-split-chars>
+            <span class="line"><span class="line-inner">Full-spectrum</span></span>
+            <span class="line"><span class="line-inner"><em>digital</em> engineering.</span></span>
+          </h2>
+        </div>
+        <p class="section-desc">A unified studio covering strategy, design, and engineering — built to deliver sophisticated digital products end-to-end.</p>
       </div>
-      <p class="section-desc">A unified studio covering strategy, design, and engineering — built to deliver sophisticated digital products end-to-end.</p>
     </div>
-    <div class="capabilities-grid">
-      <div class="cap">
-        <div>
-          <div class="cap-num">/ 01</div>
-          <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
-          <h3>Software Engineering</h3>
-          <p>Production-grade applications, APIs, and platforms built with modern architectures and rigorous engineering standards.</p>
+    <div class="capabilities-sticky">
+      <div class="container">
+        <div class="capabilities-grid">
+          <div class="cap">
+            <div>
+              <div class="cap-num">/ 01</div>
+              <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+              <h3>Software Engineering</h3>
+              <p>Production-grade applications, APIs, and platforms built with modern architectures and rigorous engineering standards.</p>
+            </div>
+            <div class="cap-tags"><span>React</span><span>Node</span><span>TypeScript</span><span>Go</span></div>
+          </div>
+          <div class="cap">
+            <div>
+              <div class="cap-num">/ 02</div>
+              <div class="cap-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m10 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"/></svg></div>
+              <h3>AI & Machine Learning</h3>
+              <p>Intelligent systems, LLM integrations, and custom AI solutions that bring measurable value to products and workflows.</p>
+            </div>
+            <div class="cap-tags"><span>LLMs</span><span>RAG</span><span>Agents</span><span>ML Ops</span></div>
+          </div>
+          <div class="cap">
+            <div>
+              <div class="cap-num">/ 03</div>
+              <div class="cap-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+              <h3>Product Design</h3>
+              <p>Interfaces and experiences engineered for clarity, performance, and conversion — from concept to production-ready design systems.</p>
+            </div>
+            <div class="cap-tags"><span>UX</span><span>UI</span><span>Systems</span><span>Motion</span></div>
+          </div>
+          <div class="cap">
+            <div>
+              <div class="cap-num">/ 04</div>
+              <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+              <h3>Web Platforms</h3>
+              <p>High-performance websites, marketing platforms, and web applications built for speed, SEO, and scale.</p>
+            </div>
+            <div class="cap-tags"><span>Next.js</span><span>Headless</span><span>Edge</span><span>SEO</span></div>
+          </div>
+          <div class="cap">
+            <div>
+              <div class="cap-num">/ 05</div>
+              <div class="cap-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+              <h3>Mobile Development</h3>
+              <p>Native and cross-platform mobile applications with fluid interactions, offline-first architecture, and polished UX.</p>
+            </div>
+            <div class="cap-tags"><span>iOS</span><span>Android</span><span>Flutter</span><span>RN</span></div>
+          </div>
+          <div class="cap">
+            <div>
+              <div class="cap-num">/ 06</div>
+              <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></div>
+              <h3>Cloud & Infrastructure</h3>
+              <p>Scalable cloud architecture, DevOps pipelines, and infrastructure designed for reliability, security, and global performance.</p>
+            </div>
+            <div class="cap-tags"><span>AWS</span><span>Docker</span><span>K8s</span><span>CI/CD</span></div>
+          </div>
         </div>
-        <div class="cap-tags"><span>React</span><span>Node</span><span>TypeScript</span><span>Go</span></div>
-      </div>
-      <div class="cap">
-        <div>
-          <div class="cap-num">/ 02</div>
-          <div class="cap-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m10 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"/></svg></div>
-          <h3>AI & Machine Learning</h3>
-          <p>Intelligent systems, LLM integrations, and custom AI solutions that bring measurable value to products and workflows.</p>
-        </div>
-        <div class="cap-tags"><span>LLMs</span><span>RAG</span><span>Agents</span><span>ML Ops</span></div>
-      </div>
-      <div class="cap">
-        <div>
-          <div class="cap-num">/ 03</div>
-          <div class="cap-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-          <h3>Product Design</h3>
-          <p>Interfaces and experiences engineered for clarity, performance, and conversion — from concept to production-ready design systems.</p>
-        </div>
-        <div class="cap-tags"><span>UX</span><span>UI</span><span>Systems</span><span>Motion</span></div>
-      </div>
-      <div class="cap">
-        <div>
-          <div class="cap-num">/ 04</div>
-          <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-          <h3>Web Platforms</h3>
-          <p>High-performance websites, marketing platforms, and web applications built for speed, SEO, and scale.</p>
-        </div>
-        <div class="cap-tags"><span>Next.js</span><span>Headless</span><span>Edge</span><span>SEO</span></div>
-      </div>
-      <div class="cap">
-        <div>
-          <div class="cap-num">/ 05</div>
-          <div class="cap-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
-          <h3>Mobile Development</h3>
-          <p>Native and cross-platform mobile applications with fluid interactions, offline-first architecture, and polished UX.</p>
-        </div>
-        <div class="cap-tags"><span>iOS</span><span>Android</span><span>Flutter</span><span>RN</span></div>
-      </div>
-      <div class="cap">
-        <div>
-          <div class="cap-num">/ 06</div>
-          <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></div>
-          <h3>Cloud & Infrastructure</h3>
-          <p>Scalable cloud architecture, DevOps pipelines, and infrastructure designed for reliability, security, and global performance.</p>
-        </div>
-        <div class="cap-tags"><span>AWS</span><span>Docker</span><span>K8s</span><span>CI/CD</span></div>
       </div>
     </div>
   </div>
@@ -486,7 +513,7 @@
       <div class="container" style="display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;width:100%;max-width:1400px;margin:0 auto;padding:0 48px">
         <div>
           <div class="section-label">03 — Selected Work</div>
-          <h2 class="section-title" data-split>
+          <h2 class="section-title" data-split-chars>
             <span class="line"><span class="line-inner">Products</span></span>
             <span class="line"><span class="line-inner">we've <em>shipped</em>.</span></span>
           </h2>
@@ -496,7 +523,20 @@
     </div>
     <div class="projects-track" id="projectsTrack">
       <div class="project-card">
-        <div class="project-visual"><div class="orb" style="background:radial-gradient(circle,rgba(79,124,255,0.5),transparent 70%);top:10%;left:20%"></div></div>
+        <div class="project-visual">
+          <div class="orb" style="background:radial-gradient(circle,rgba(79,124,255,0.5),transparent 70%);top:10%;left:20%"></div>
+          <svg viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f7cff" stop-opacity=".6"/><stop offset="1" stop-color="#8b5cf6" stop-opacity=".2"/></linearGradient></defs>
+            <g stroke="url(#g1)" stroke-width="1" fill="none" opacity=".8">
+              <circle cx="260" cy="320" r="80"/><circle cx="260" cy="320" r="140"/><circle cx="260" cy="320" r="200"/>
+              <line x1="60" y1="320" x2="460" y2="320"/><line x1="260" y1="120" x2="260" y2="520"/>
+              <line x1="120" y1="180" x2="400" y2="460"/><line x1="400" y1="180" x2="120" y2="460"/>
+              <circle cx="260" cy="320" r="6" fill="#4f7cff"/>
+              <circle cx="340" cy="320" r="4" fill="#8b5cf6"/><circle cx="180" cy="320" r="4" fill="#8b5cf6"/>
+              <circle cx="260" cy="240" r="4" fill="#8b5cf6"/><circle cx="260" cy="400" r="4" fill="#8b5cf6"/>
+            </g>
+          </svg>
+        </div>
         <div class="project-content">
           <div class="project-top"><div class="project-num">/ 01</div><div class="project-year">2026</div></div>
           <div class="project-bottom">
@@ -508,7 +548,19 @@
         <div class="project-arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
       </div>
       <div class="project-card">
-        <div class="project-visual"><div class="orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);top:30%;right:10%"></div></div>
+        <div class="project-visual">
+          <div class="orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);top:30%;right:10%"></div>
+          <svg viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b5cf6" stop-opacity=".6"/><stop offset="1" stop-color="#4f7cff" stop-opacity=".2"/></linearGradient></defs>
+            <g stroke="url(#g2)" stroke-width="1" fill="none" opacity=".8">
+              <rect x="160" y="220" width="200" height="200" rx="8"/>
+              <rect x="200" y="260" width="200" height="200" rx="8"/>
+              <rect x="120" y="180" width="200" height="200" rx="8"/>
+              <line x1="160" y1="220" x2="200" y2="260"/><line x1="360" y1="220" x2="400" y2="260"/>
+              <line x1="160" y1="420" x2="200" y2="460"/><line x1="360" y1="420" x2="400" y2="460"/>
+            </g>
+          </svg>
+        </div>
         <div class="project-content">
           <div class="project-top"><div class="project-num">/ 02</div><div class="project-year">2026</div></div>
           <div class="project-bottom">
@@ -520,7 +572,24 @@
         <div class="project-arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
       </div>
       <div class="project-card">
-        <div class="project-visual"><div class="orb" style="background:radial-gradient(circle,rgba(79,124,255,0.5),transparent 70%);bottom:10%;left:30%"></div></div>
+        <div class="project-visual">
+          <div class="orb" style="background:radial-gradient(circle,rgba(79,124,255,0.5),transparent 70%);bottom:10%;left:30%"></div>
+          <svg viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="g3"><stop offset="0" stop-color="#4f7cff" stop-opacity=".8"/><stop offset="1" stop-color="#8b5cf6" stop-opacity=".1"/></radialGradient></defs>
+            <g stroke="url(#g3)" stroke-width="1" fill="none" opacity=".8">
+              <path d="M260 180 Q 360 260 260 340 Q 160 420 260 500"/>
+              <path d="M180 220 Q 260 320 340 220"/>
+              <path d="M180 460 Q 260 360 340 460"/>
+              <circle cx="260" cy="180" r="4" fill="#4f7cff"/>
+              <circle cx="260" cy="340" r="4" fill="#8b5cf6"/>
+              <circle cx="260" cy="500" r="4" fill="#4f7cff"/>
+              <circle cx="180" cy="220" r="3" fill="#8b5cf6"/>
+              <circle cx="340" cy="220" r="3" fill="#8b5cf6"/>
+              <circle cx="180" cy="460" r="3" fill="#8b5cf6"/>
+              <circle cx="340" cy="460" r="3" fill="#8b5cf6"/>
+            </g>
+          </svg>
+        </div>
         <div class="project-content">
           <div class="project-top"><div class="project-num">/ 03</div><div class="project-year">2025</div></div>
           <div class="project-bottom">
@@ -532,7 +601,21 @@
         <div class="project-arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
       </div>
       <div class="project-card">
-        <div class="project-visual"><div class="orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);top:20%;right:20%"></div></div>
+        <div class="project-visual">
+          <div class="orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);top:20%;right:20%"></div>
+          <svg viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b5cf6" stop-opacity=".6"/><stop offset="1" stop-color="#4f7cff" stop-opacity=".2"/></linearGradient></defs>
+            <g stroke="url(#g4)" stroke-width="1" fill="none" opacity=".8">
+              <rect x="200" y="200" width="120" height="240" rx="16"/>
+              <rect x="220" y="220" width="80" height="180" rx="4"/>
+              <line x1="200" y1="240" x2="320" y2="240"/>
+              <line x1="200" y1="400" x2="320" y2="400"/>
+              <circle cx="260" cy="420" r="6"/>
+              <rect x="100" y="280" width="80" height="120" rx="8" opacity=".5"/>
+              <rect x="340" y="280" width="80" height="120" rx="8" opacity=".5"/>
+            </g>
+          </svg>
+        </div>
         <div class="project-content">
           <div class="project-top"><div class="project-num">/ 04</div><div class="project-year">2025</div></div>
           <div class="project-bottom">
@@ -544,7 +627,25 @@
         <div class="project-arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
       </div>
       <div class="project-card">
-        <div class="project-visual"><div class="orb" style="background:radial-gradient(circle,rgba(79,124,255,0.5),transparent 70%);top:40%;left:10%"></div></div>
+        <div class="project-visual">
+          <div class="orb" style="background:radial-gradient(circle,rgba(79,124,255,0.5),transparent 70%);top:40%;left:10%"></div>
+          <svg viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f7cff" stop-opacity=".6"/><stop offset="1" stop-color="#8b5cf6" stop-opacity=".3"/></linearGradient></defs>
+            <g stroke="url(#g5)" stroke-width="1" fill="none" opacity=".8">
+              <circle cx="160" cy="240" r="30"/><circle cx="360" cy="240" r="30"/>
+              <circle cx="160" cy="400" r="30"/><circle cx="360" cy="400" r="30"/>
+              <circle cx="260" cy="320" r="40"/>
+              <line x1="190" y1="240" x2="330" y2="240"/>
+              <line x1="190" y1="400" x2="330" y2="400"/>
+              <line x1="160" y1="270" x2="160" y2="370"/>
+              <line x1="360" y1="270" x2="360" y2="370"/>
+              <line x1="185" y1="260" x2="235" y2="300"/>
+              <line x1="335" y1="260" x2="285" y2="300"/>
+              <line x1="185" y1="380" x2="235" y2="340"/>
+              <line x1="335" y1="380" x2="285" y2="340"/>
+            </g>
+          </svg>
+        </div>
         <div class="project-content">
           <div class="project-top"><div class="project-num">/ 05</div><div class="project-year">2025</div></div>
           <div class="project-bottom">
@@ -556,7 +657,20 @@
         <div class="project-arrow"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
       </div>
       <div class="project-card">
-        <div class="project-visual"><div class="orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);bottom:20%;right:15%"></div></div>
+        <div class="project-visual">
+          <div class="orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);bottom:20%;right:15%"></div>
+          <svg viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b5cf6" stop-opacity=".5"/><stop offset="1" stop-color="#4f7cff" stop-opacity=".3"/></linearGradient></defs>
+            <g stroke="url(#g6)" stroke-width="1" fill="none" opacity=".8">
+              <path d="M100 320 Q 200 200 300 320 T 500 320" />
+              <path d="M100 360 Q 200 240 300 360 T 500 360" opacity=".6"/>
+              <path d="M100 400 Q 200 280 300 400 T 500 400" opacity=".4"/>
+              <circle cx="200" cy="260" r="4" fill="#8b5cf6"/>
+              <circle cx="300" cy="320" r="4" fill="#4f7cff"/>
+              <circle cx="400" cy="260" r="4" fill="#8b5cf6"/>
+            </g>
+          </svg>
+        </div>
         <div class="project-content">
           <div class="project-top"><div class="project-num">/ 06</div><div class="project-year">2024</div></div>
           <div class="project-bottom">
@@ -581,7 +695,7 @@
   <div class="container">
     <div class="process-head">
       <div class="section-label">04 — Our Process</div>
-      <h2 class="section-title" data-split>
+      <h2 class="section-title" data-split-chars>
         <span class="line"><span class="line-inner">A disciplined</span></span>
         <span class="line"><span class="line-inner"><em>method</em> for</span></span>
         <span class="line"><span class="line-inner">exceptional outcomes.</span></span>
@@ -641,7 +755,7 @@
 <section class="contact" id="contact">
   <div class="contact-wrap">
     <div class="section-label" style="justify-content:center">06 — Contact</div>
-    <h2>
+    <h2 data-split-chars>
       <span class="line"><span class="line-inner">Let's build</span></span>
       <span class="line"><span class="line-inner"><em>something real.</em></span></span>
     </h2>
@@ -679,17 +793,59 @@
 
 <script>
 /* ============================================================
-   JAMAL STUDIO — Interactive Experience
+   JAMAL STUDIO — Interactive Experience v2
    ============================================================ */
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ============ TEXT SPLITTING (character level) ============ */
+function splitTextToChars(selector){
+  document.querySelectorAll(selector).forEach(el => {
+    const lineInners = el.querySelectorAll('.line-inner');
+    lineInners.forEach(lineInner => {
+      const html = lineInner.innerHTML;
+      // Preserve <em> tags
+      const wrapped = html.replace(/(<em[^>]*>)(.*?)(<\/em>)/g, (match, open, content, close) => {
+        const chars = [...content].map(c => c === ' ' ? ' ' : `<span class="char">${c}</span>`).join('');
+        return `${open}${chars}${close}`;
+      });
+      const finalHtml = [...wrapped].map((c, idx) => {
+        // Skip if already wrapped
+        return c;
+      }).join('');
+      // Simpler approach: walk through text nodes
+      const nodes = lineInner.childNodes;
+      let newHtml = '';
+      nodes.forEach(node => {
+        if(node.nodeType === 3){
+          [...node.textContent].forEach(c => {
+            if(c === ' ') newHtml += ' ';
+            else newHtml += `<span class="char">${c}</span>`;
+          });
+        } else if(node.nodeType === 1){
+          if(node.tagName === 'EM'){
+            newHtml += '<em>';
+            [...node.textContent].forEach(c => {
+              if(c === ' ') newHtml += ' ';
+              else newHtml += `<span class="char">${c}</span>`;
+            });
+            newHtml += '</em>';
+          } else {
+            newHtml += node.outerHTML;
+          }
+        }
+      });
+      lineInner.innerHTML = newHtml;
+    });
+  });
+}
+splitTextToChars('[data-split-chars]');
 
 /* ============ LENIS SMOOTH SCROLL ============ */
 const lenis = new Lenis({
   duration: 1.3,
   easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true,
-  smoothTouch: false,
+  smoothWheel: true,
   touchMultiplier: 1.5
 });
 function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
@@ -700,7 +856,6 @@ gsap.ticker.lagSmoothing(0);
 
 /* ============ SCROLL VELOCITY TRACKER ============ */
 let scrollVelocity = 0;
-let lastScroll = 0;
 let velocityTicking = false;
 lenis.on('scroll', ({velocity}) => {
   scrollVelocity = velocity;
@@ -712,16 +867,18 @@ lenis.on('scroll', ({velocity}) => {
 function updateVelocityEffects(){
   const abs = Math.min(Math.abs(scrollVelocity), 6);
   const norm = abs / 6;
-  // Subtle skew on big text based on velocity
+  // Big text skew
   document.querySelectorAll('.big-text-inner').forEach(el=>{
-    gsap.to(el, {skewX: norm * 3 * Math.sign(scrollVelocity), duration: 0.5, ease:'power2.out'});
+    gsap.to(el, {skewX: norm * 4 * Math.sign(scrollVelocity), duration: 0.6, ease:'power2.out'});
   });
+  // Subtle scale on hero glow
+  gsap.to('#heroGlow', {scale: 1 + norm * 0.1, duration: 0.6, ease:'power2.out', overwrite:'auto'});
   velocityTicking = false;
 }
 
 /* ============ PROGRESS BAR ============ */
 const progress = document.getElementById('progress');
-window.addEventListener('scroll', () => {
+lenis.on('scroll', () => {
   const h = document.documentElement;
   const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
   progress.style.width = (scrolled * 100) + '%';
@@ -755,13 +912,17 @@ hoverables.forEach(el=>{
   });
   el.addEventListener('mouseleave',()=>{
     ring.classList.remove('hover');
+    ring.classList.remove('view');
     dot.classList.remove('hover');
     label.classList.remove('show');
   });
 });
-document.querySelectorAll('.project-card').forEach(el=>el.dataset.cursor='View');
+document.querySelectorAll('.project-card').forEach(el=>{el.dataset.cursor='View';
+  el.addEventListener('mouseenter',()=>{ring.classList.add('view');ring.classList.remove('hover');});
+});
 document.querySelectorAll('.btn').forEach(el=>{if(!el.dataset.cursor)el.dataset.cursor='Go'});
 document.querySelectorAll('.cap').forEach(el=>el.dataset.cursor='Explore');
+document.querySelectorAll('.contact-email').forEach(el=>el.dataset.cursor='Send');
 document.addEventListener('mousedown',()=>ring.classList.add('click'));
 document.addEventListener('mouseup',()=>ring.classList.remove('click'));
 
@@ -781,8 +942,16 @@ document.querySelectorAll('.btn, .nav-cta, .contact-email, .project-arrow').forE
 /* ============ PRELOADER ============ */
 const preloader = document.getElementById('preloader');
 const preText = document.getElementById('preloaderText');
+const preCounter = document.getElementById('preloaderCounter');
 const phrases = ['Initializing digital environment','Loading systems','Calibrating interface','Ready'];
 let pIdx = 0;
+let counterVal = 0;
+const counterInterval = setInterval(()=>{
+  counterVal += Math.floor(Math.random()*8)+3;
+  if(counterVal > 100) counterVal = 100;
+  preCounter.textContent = String(counterVal).padStart(2,'0');
+  if(counterVal >= 100) clearInterval(counterInterval);
+}, 50);
 const pInterval = setInterval(()=>{
   pIdx++;
   if(pIdx < phrases.length){
@@ -793,13 +962,13 @@ const pInterval = setInterval(()=>{
     }, 200);
   }
 }, 500);
-preText.style.transition = 'opacity .3s';
 
 window.addEventListener('load', () => {
   setTimeout(()=>{
     clearInterval(pInterval);
+    gsap.to(preCounter, {opacity:0, duration:.3});
     gsap.to(preloader, {
-      yPercent: -100,
+      clipPath: 'inset(0 0 100% 0)',
       duration: 1.2,
       ease: 'power4.inOut',
       onComplete: () => {
@@ -807,10 +976,10 @@ window.addEventListener('load', () => {
         startHeroAnimation();
       }
     });
-  }, 2200);
+  }, 2400);
 });
 
-/* ============ HERO CANVAS ============ */
+/* ============ HERO CANVAS (3D wireframe) ============ */
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
 let W, H, particles = [];
@@ -824,15 +993,10 @@ window.addEventListener('resize', resize);
 const PCOUNT = window.innerWidth < 768 ? 50 : 100;
 for(let i=0;i<PCOUNT;i++){
   particles.push({
-    x: Math.random()*W,
-    y: Math.random()*H,
-    vx: (Math.random()-0.5)*0.3,
-    vy: (Math.random()-0.5)*0.3,
-    r: Math.random()*1.5 + 0.5,
-    baseX: 0, baseY: 0
+    x: Math.random()*W, y: Math.random()*H,
+    vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3,
+    r: Math.random()*1.5 + 0.5
   });
-  particles[i].baseX = particles[i].x;
-  particles[i].baseY = particles[i].y;
 }
 
 let heroMouse = {x: W/2, y: H/2, active: false};
@@ -844,12 +1008,43 @@ canvas.addEventListener('mousemove', e => {
 });
 canvas.addEventListener('mouseleave', () => heroMouse.active = false);
 
+// 3D wireframe icosahedron
+const PHI = (1 + Math.sqrt(5)) / 2;
+const icoVertices = [
+  [-1, PHI, 0],[1, PHI, 0],[-1,-PHI, 0],[1,-PHI, 0],
+  [0,-1, PHI],[0, 1, PHI],[0,-1,-PHI],[0, 1,-PHI],
+  [PHI, 0,-1],[PHI, 0, 1],[-PHI, 0,-1],[-PHI, 0, 1]
+];
+const icoEdges = [
+  [0,11],[0,5],[0,1],[0,7],[0,10],
+  [3,9],[3,4],[3,2],[3,6],[3,8],
+  [1,5],[5,11],[11,10],[10,7],[7,1],
+  [9,4],[4,2],[2,6],[6,8],[8,9],
+  [1,9],[5,4],[11,2],[10,6],[7,8]
+];
+
 let canvasScrollOffset = 0;
+let rotationX = 0, rotationY = 0;
+
+function project3D(v, cx, cy, scale, rotX, rotY){
+  let [x,y,z] = v;
+  // Rotate Y
+  const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+  let x1 = x * cosY - z * sinY;
+  let z1 = x * sinY + z * cosY;
+  // Rotate X
+  const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+  let y1 = y * cosX - z1 * sinX;
+  let z2 = y * sinX + z1 * cosX;
+  const perspective = 4 / (4 + z2);
+  return {x: cx + x1 * scale * perspective, y: cy + y1 * scale * perspective, z: z2};
+}
+
 function draw(){
   ctx.clearRect(0,0,W,H);
   
   // Grid
-  ctx.strokeStyle = 'rgba(79,124,255,0.05)';
+  ctx.strokeStyle = 'rgba(79,124,255,0.04)';
   ctx.lineWidth = 1;
   const grid = 80;
   const offset = (canvasScrollOffset * 0.1) % grid;
@@ -860,36 +1055,59 @@ function draw(){
     ctx.beginPath();ctx.moveTo(0,y+offset);ctx.lineTo(W,y+offset);ctx.stroke();
   }
   
-  // Particles
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    if(p.x<0||p.x>W)p.vx*=-1;
-    if(p.y<0||p.y>H)p.vy*=-1;
-    
-    if(heroMouse.active){
-      const dx = heroMouse.x - p.x, dy = heroMouse.y - p.y;
-      const dist = Math.sqrt(dx*dx+dy*dy);
-      if(dist < 200){
-        p.x += dx * 0.0015;
-        p.y += dy * 0.0015;
-      }
-    }
-    
+  // 3D wireframe
+  rotationY += 0.003;
+  rotationX += 0.001;
+  const cx = W/2, cy = H/2;
+  const scale = Math.min(W, H) * 0.25;
+  const projected = icoVertices.map(v => project3D(v, cx, cy, scale, rotationX, rotationY));
+  
+  // Edges
+  ctx.lineWidth = 0.8;
+  icoEdges.forEach(([a,b]) => {
+    const pa = projected[a], pb = projected[b];
+    const avgZ = (pa.z + pb.z) / 2;
+    const alpha = 0.15 + (avgZ + 2) * 0.08;
+    ctx.strokeStyle = `rgba(79,124,255,${Math.max(0.05, Math.min(0.4, alpha))})`;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(79,124,255,0.7)';
+    ctx.moveTo(pa.x, pa.y);
+    ctx.lineTo(pb.x, pb.y);
+    ctx.stroke();
+  });
+  
+  // Vertices
+  projected.forEach(p => {
+    const alpha = 0.3 + (p.z + 2) * 0.15;
+    ctx.fillStyle = `rgba(139,92,246,${Math.max(0.2, Math.min(0.8, alpha))})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
     ctx.fill();
   });
   
-  // Connections
+  // Particles
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    if(heroMouse.active){
+      const dx = heroMouse.x - p.x, dy = heroMouse.y - p.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist < 200){ p.x += dx * 0.0015; p.y += dy * 0.0015; }
+    }
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(79,124,255,0.6)';
+    ctx.fill();
+  });
+  
+  // Particle connections
   for(let i=0;i<particles.length;i++){
     for(let j=i+1;j<particles.length;j++){
       const dx = particles[i].x - particles[j].x;
       const dy = particles[i].y - particles[j].y;
       const dist = Math.sqrt(dx*dx+dy*dy);
       if(dist < 130){
-        ctx.strokeStyle = `rgba(79,124,255,${0.18*(1-dist/130)})`;
+        ctx.strokeStyle = `rgba(79,124,255,${0.15*(1-dist/130)})`;
         ctx.lineWidth = 0.5;
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
@@ -902,7 +1120,7 @@ function draw(){
       const dy = particles[i].y - heroMouse.y;
       const dist = Math.sqrt(dx*dx+dy*dy);
       if(dist < 180){
-        ctx.strokeStyle = `rgba(139,92,246,${0.35*(1-dist/180)})`;
+        ctx.strokeStyle = `rgba(139,92,246,${0.3*(1-dist/180)})`;
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
@@ -916,11 +1134,11 @@ function draw(){
 }
 draw();
 
-/* ============ HERO ENTRANCE ANIMATION ============ */
+/* ============ HERO ENTRANCE ============ */
 function startHeroAnimation(){
   const tl = gsap.timeline({defaults:{ease:'power4.out'}});
   tl.to('.hero-tag', {opacity:1, y:0, duration:1}, 0)
-    .to('#heroTitle .line-inner', {y:0, duration:1.3, stagger:0.12}, 0.2)
+    .to('#heroTitle .char', {y:0, duration:1.1, stagger:0.025, ease:'power4.out'}, 0.2)
     .to('#heroSub', {opacity:1, y:0, duration:1}, 0.9)
     .to('#heroCtas', {opacity:1, y:0, duration:1}, 1.1)
     .to('#heroMeta', {opacity:1, y:0, duration:1}, 1.3);
@@ -946,33 +1164,22 @@ heroTl
   .to('#heroMeta', {opacity: 0, y: -20, duration: 0.6}, 0)
   .to('.hero-tag', {opacity: 0, y: -20, duration: 0.4}, 0)
   .to('#scrollIndicator', {opacity: 0, duration: 0.3}, 0)
-  .to('#heroGlow', {scale: 1.5, opacity: 0.3, duration: 1}, 0)
-  .to('#heroCanvas', {scale: 1.1, duration: 1}, 0);
+  .to('#heroGlow', {scale: 1.8, opacity: 0.2, duration: 1}, 0)
+  .to('#heroCanvas', {scale: 1.15, duration: 1}, 0);
 
-/* ============ SECTION TITLE SPLIT REVEAL ============ */
-document.querySelectorAll('[data-split] .line-inner').forEach(el => {
-  gsap.to(el, {
-    y: 0,
-    duration: 1.3,
+/* ============ SECTION TITLE CHAR REVEAL ============ */
+document.querySelectorAll('[data-split-chars]').forEach(title => {
+  const chars = title.querySelectorAll('.char');
+  if(chars.length === 0) return;
+  gsap.from(chars, {
+    y: '110%',
+    duration: 1.2,
     ease: 'power4.out',
+    stagger: 0.02,
     scrollTrigger: {
-      trigger: el.closest('[data-split]'),
-      start: 'top 80%',
+      trigger: title,
+      start: 'top 82%',
       toggleActions: 'play none none reverse'
-    }
-  });
-});
-
-/* ============ CONTACT TITLE REVEAL ============ */
-gsap.utils.toArray('.contact h2 .line-inner').forEach((el, i) => {
-  gsap.to(el, {
-    y: 0,
-    duration: 1.4,
-    ease: 'power4.out',
-    delay: i * 0.15,
-    scrollTrigger: {
-      trigger: '.contact h2',
-      start: 'top 80%'
     }
   });
 });
@@ -986,27 +1193,17 @@ document.querySelectorAll('[data-count]').forEach(el => {
     val: target,
     duration: 2,
     ease: 'power2.out',
-    scrollTrigger: {
-      trigger: el,
-      start: 'top 85%'
-    },
-    onUpdate: () => {
-      el.textContent = Math.floor(obj.val) + suffix;
-    }
+    scrollTrigger: {trigger: el, start: 'top 85%'},
+    onUpdate: () => { el.textContent = Math.floor(obj.val) + suffix; }
   });
 });
 
 /* ============ CAPABILITIES STAGGER ============ */
 gsap.utils.toArray('.cap').forEach((cap, i) => {
   gsap.from(cap, {
-    y: 60,
-    opacity: 0,
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: cap,
-      start: 'top 85%'
-    },
+    y: 60, opacity: 0,
+    duration: 1, ease: 'power3.out',
+    scrollTrigger: {trigger: cap, start: 'top 88%'},
     delay: (i % 3) * 0.1
   });
 });
@@ -1015,35 +1212,30 @@ gsap.utils.toArray('.cap').forEach((cap, i) => {
 const projectsTrack = document.getElementById('projectsTrack');
 const projectsSection = document.querySelector('.projects');
 if(projectsTrack && projectsSection){
-  const getScrollAmount = () => {
-    return -(projectsTrack.scrollWidth - window.innerWidth);
-  };
-  
   gsap.to(projectsTrack, {
-    x: getScrollAmount,
+    x: () => -(projectsTrack.scrollWidth - window.innerWidth),
     ease: 'none',
     scrollTrigger: {
       trigger: projectsSection,
       start: 'top top',
       end: () => '+=' + (projectsTrack.scrollWidth - window.innerWidth + 400),
-      pin: true,
+      pin: '.projects-wrapper',
       scrub: 1,
       invalidateOnRefresh: true,
       anticipatePin: 1
     }
   });
   
-  // Parallax on cards
-  gsap.utils.toArray('.project-card').forEach((card, i) => {
-    gsap.from(card.querySelector('.project-visual'), {
+  // Parallax on card visuals
+  gsap.utils.toArray('.project-card').forEach(card => {
+    gsap.to(card.querySelector('.project-visual'), {
       x: -80,
+      ease: 'none',
       scrollTrigger: {
-        trigger: card,
-        containerAnimation: gsap.getById && undefined,
-        start: 'left right',
-        end: 'right left',
-        scrub: true,
-        horizontal: true
+        trigger: projectsSection,
+        start: 'top top',
+        end: () => '+=' + (projectsTrack.scrollWidth - window.innerWidth + 400),
+        scrub: 1
       }
     });
   });
@@ -1053,35 +1245,20 @@ if(projectsTrack && projectsSection){
 gsap.to('#bigText1', {
   x: () => -(document.getElementById('bigText1').scrollWidth - window.innerWidth + 200),
   ease: 'none',
-  scrollTrigger: {
-    trigger: '.big-text',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: 0.8
-  }
+  scrollTrigger: {trigger: '#bigText1', start: 'top bottom', end: 'bottom top', scrub: 0.8}
 });
 gsap.to('#bigText2', {
   x: () => (document.getElementById('bigText2').scrollWidth - window.innerWidth + 200),
   ease: 'none',
-  scrollTrigger: {
-    trigger: '#bigText2',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: 0.8
-  }
+  scrollTrigger: {trigger: '#bigText2', start: 'top bottom', end: 'bottom top', scrub: 0.8}
 });
 
 /* ============ PROCESS STEPS ============ */
 gsap.utils.toArray('.step').forEach((step, i) => {
   gsap.from(step, {
-    y: 50,
-    opacity: 0,
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: step,
-      start: 'top 85%'
-    },
+    y: 50, opacity: 0,
+    duration: 1, ease: 'power3.out',
+    scrollTrigger: {trigger: step, start: 'top 85%'},
     delay: i * 0.12
   });
 });
@@ -1089,79 +1266,40 @@ gsap.utils.toArray('.step').forEach((step, i) => {
 /* ============ FOUNDER PARALLAX ============ */
 gsap.to('.founder-visual .initials', {
   y: -80,
-  scrollTrigger: {
-    trigger: '.founder',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: 1
-  }
+  scrollTrigger: {trigger: '.founder', start: 'top bottom', end: 'bottom top', scrub: 1}
 });
 gsap.to('.founder-visual .orb.a', {
   x: 60, y: 40,
-  scrollTrigger: {
-    trigger: '.founder',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: 1
-  }
+  scrollTrigger: {trigger: '.founder', start: 'top bottom', end: 'bottom top', scrub: 1}
 });
 gsap.to('.founder-visual .orb.b', {
   x: -60, y: -40,
-  scrollTrigger: {
-    trigger: '.founder',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: 1
-  }
+  scrollTrigger: {trigger: '.founder', start: 'top bottom', end: 'bottom top', scrub: 1}
 });
 
 /* ============ ABOUT GRID REVEAL ============ */
 gsap.from('.about-text', {
-  y: 60,
-  opacity: 0,
-  duration: 1.2,
-  ease: 'power3.out',
-  scrollTrigger: {
-    trigger: '.about-grid',
-    start: 'top 75%'
-  }
+  y: 60, opacity: 0, duration: 1.2, ease: 'power3.out',
+  scrollTrigger: {trigger: '.about-grid', start: 'top 75%'}
 });
 gsap.from('.founder-card', {
-  y: 80,
-  opacity: 0,
-  duration: 1.2,
-  ease: 'power3.out',
-  scrollTrigger: {
-    trigger: '.about-grid',
-    start: 'top 75%'
-  },
+  y: 80, opacity: 0, duration: 1.2, ease: 'power3.out',
+  scrollTrigger: {trigger: '.about-grid', start: 'top 75%'},
   delay: 0.2
 });
 
 /* ============ FOUNDER INFO REVEAL ============ */
 gsap.from('.founder-info > *', {
-  y: 40,
-  opacity: 0,
-  duration: 1,
-  ease: 'power3.out',
+  y: 40, opacity: 0, duration: 1, ease: 'power3.out',
   stagger: 0.1,
-  scrollTrigger: {
-    trigger: '.founder-info',
-    start: 'top 75%'
-  }
+  scrollTrigger: {trigger: '.founder-info', start: 'top 75%'}
 });
 
 /* ============ CONTACT REVEAL ============ */
 gsap.from('.contact-wrap > *', {
-  y: 50,
-  opacity: 0,
-  duration: 1,
-  ease: 'power3.out',
+  y: 50, opacity: 0, duration: 1, ease: 'power3.out',
   stagger: 0.15,
-  scrollTrigger: {
-    trigger: '.contact',
-    start: 'top 70%'
-  }
+  scrollTrigger: {trigger: '.contact', start: 'top 70%'}
 });
 
 /* ============ MARQUEE SPEED ON SCROLL ============ */
@@ -1184,11 +1322,8 @@ ScrollTrigger.create({
   start: 'top -80',
   end: 99999,
   onUpdate: (self) => {
-    if(self.direction === 1 && self.scroll() > 200){
-      nav.classList.add('scrolled');
-    } else if(self.scroll() < 200){
-      nav.classList.remove('scrolled');
-    }
+    if(self.scroll() > 200) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
   }
 });
 
@@ -1214,9 +1349,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* ============ REFRESH ON LOAD ============ */
+/* ============ REFRESH ============ */
 window.addEventListener('load', () => {
-  setTimeout(() => ScrollTrigger.refresh(), 500);
+  setTimeout(() => ScrollTrigger.refresh(), 600);
+});
+window.addEventListener('resize', () => {
+  setTimeout(() => ScrollTrigger.refresh(), 200);
 });
 </script>
 </body>
