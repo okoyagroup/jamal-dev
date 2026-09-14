@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JAMAL STUDIO — We Build What's Next</title>
+<link rel="preconnect" href="https://cdn.fontsource.org">
+<link href="https://cdn.fontsource.org/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060a;
+    --bg-2:#0a0c14;
+    --surface:#0d0f17;
+    --surface-2:#12151f;
+    --line:rgba(255,255,255,0.06);
+    --line-2:rgba(255,255,255,0.1);
+    --text:#f5f5f7;
+    --text-dim:#9ca3af;
+    --text-mute:#6b7280;
+    --accent:#4f7cff;
+    --accent-2:#8b5cf6;
+    --accent-soft:rgba(79,124,255,0.15);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none}
+  body{line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  ::selection{background:var(--accent);color:#fff}
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:4px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+  /* Custom Cursor */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:difference}
+  .cursor-dot{width:6px;height:6px;background:#fff;transition:width .25s,height .25s,background .25s}
+  .cursor-ring{width:38px;height:38px;border:1px solid rgba(255,255,255,0.5);transition:width .3s cubic-bezier(.2,.8,.2,1),height .3s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s,transform .1s}
+  .cursor-ring.hover{width:70px;height:70px;border-color:var(--accent);background:rgba(79,124,255,0.08)}
+  .cursor-dot.hover{width:0;height:0}
+  .cursor-ring.click{transform:translate(-50%,-50%) scale(.8)}
+  @media (max-width:900px){
+    html,body{cursor:auto}
+    .cursor-dot,.cursor-ring{display:none}
+  }
+
+  /* Background grid */
+  .grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse at center,#000 40%,transparent 80%);
+  }
+
+  /* Navigation */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 48px;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease;backdrop-filter:blur(0px)}
+  nav.scrolled{background:rgba(5,6,10,0.75);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:16px 48px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:.02em}
+  .logo-mark{width:34px;height:34px;border:1px solid var(--line-2);border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,rgba(79,124,255,0.1),rgba(139,92,246,0.1))}
+  .logo-mark::before{content:'';position:absolute;inset:6px;border-radius:4px;background:linear-gradient(135deg,var(--accent),var(--accent-2));opacity:.9}
+  .logo-mark::after{content:'';position:absolute;inset:10px;border-radius:2px;background:var(--bg)}
+  .logo span{color:var(--text-dim);font-weight:400}
+  .nav-links{display:flex;gap:36px;align-items:center}
+  .nav-links a{font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);transition:color .3s;position:relative}
+  .nav-links a::after{content:'';position:absolute;bottom:-6px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{padding:10px 20px;border:1px solid var(--line-2);border-radius:100px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);transition:all .3s;background:rgba(255,255,255,0.02)}
+  .nav-cta:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .menu-toggle{display:none;width:30px;height:20px;position:relative;cursor:pointer}
+  .menu-toggle span{position:absolute;left:0;width:100%;height:1px;background:var(--text);transition:.3s}
+  .menu-toggle span:nth-child(1){top:4px}
+  .menu-toggle span:nth-child(2){top:50%}
+  .menu-toggle span:nth-child(3){bottom:4px}
+  @media (max-width:900px){
+    nav{padding:18px 24px}
+    nav.scrolled{padding:14px 24px}
+    .nav-links{display:none;position:fixed;top:70px;left:0;right:0;background:rgba(5,6,10,0.98);backdrop-filter:blur(20px);flex-direction:column;padding:30px;gap:24px;border-bottom:1px solid var(--line)}
+    .nav-links.open{display:flex}
+    .menu-toggle{display:block}
+  }
+
+  /* Hero */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:120px 48px 80px}
+  #heroCanvas{position:absolute;inset:0;z-index:1}
+  .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(79,124,255,0.15) 0%,rgba(139,92,246,0.08) 30%,transparent 70%);pointer-events:none;z-index:2;filter:blur(40px)}
+  .hero-content{position:relative;z-index:3;max-width:1400px;width:100%;text-align:center}
+  .hero-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border:1px solid var(--line-2);border-radius:100px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:40px;background:rgba(255,255,255,0.02);backdrop-filter:blur(10px)}
+  .hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .hero h1{font-family:'Space Grotesk';font-weight:500;font-size:clamp(48px,9vw,140px);line-height:.95;letter-spacing:-.03em;margin-bottom:32px;background:linear-gradient(180deg,#fff 0%,#9ca3af 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero h1 .accent{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic;font-weight:400}
+  .hero p{max-width:680px;margin:0 auto 48px;font-size:clamp(15px,1.4vw,18px);color:var(--text-dim);line-height:1.6;font-weight:300}
+  .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:80px}
+  .btn{padding:16px 32px;border-radius:100px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:all .3s;display:inline-flex;align-items:center;gap:10px;cursor:none;border:1px solid transparent}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 10px 40px rgba(79,124,255,0.3)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 15px 50px rgba(79,124,255,0.5)}
+  .btn-secondary{background:rgba(255,255,255,0.03);border-color:var(--line-2);color:var(--text);backdrop-filter:blur(10px)}
+  .btn-secondary:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .btn svg{width:14px;height:14px}
+  .hero-meta{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:40px;padding-top:40px;border-top:1px solid var(--line)}
+  .hero-meta-item{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-mute)}
+  .hero-meta-item strong{display:block;color:var(--text);font-family:'Space Grotesk';font-size:14px;letter-spacing:.05em;margin-top:6px;font-weight:500}
+
+  /* Section base */
+  section{position:relative;padding:140px 48px;z-index:2}
+  .container{max-width:1400px;margin:0 auto;position:relative}
+  .section-head{margin-bottom:80px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
+  .section-label{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .section-label::before{content:'';width:30px;height:1px;background:var(--accent)}
+  .section-title{font-family:'Space Grotesk';font-weight:500;font-size:clamp(36px,5vw,68px);line-height:1.05;letter-spacing:-.02em;max-width:900px}
+  .section-title em{font-style:italic;color:var(--text-dim);font-weight:400}
+  .section-desc{max-width:420px;color:var(--text-dim);font-size:15px;line-height:1.7}
+
+  /* About */
+  .about{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%)}
+  .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center}
+  .about-text p{font-size:17px;line-height:1.8;color:var(--text-dim);margin-bottom:24px;font-weight:300}
+  .about-text p strong{color:var(--text);font-weight:500}
+  .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:40px}
+  .stat{background:var(--bg);padding:32px 28px}
+  .stat-num{font-family:'Space Grotesk';font-size:44px;font-weight:500;letter-spacing:-.02em;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stat-label{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-mute);margin-top:8px}
+  .founder-card{border:1px solid var(--line);border-radius:20px;padding:40px;background:linear-gradient(135deg,rgba(79,124,255,0.04),rgba(139,92,246,0.04));backdrop-filter:blur(20px);position:relative;overflow:hidden}
+  .founder-card::before{content:'';position:absolute;top:-50%;right:-50%;width:300px;height:300px;background:radial-gradient(circle,rgba(79,124,255,0.15),transparent 70%);filter:blur(40px)}
+  .founder-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-size:28px;font-weight:600;color:#fff;margin-bottom:24px;position:relative}
+  .founder-avatar::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--line-2)}
+  .founder-name{font-family:'Space Grotesk';font-size:24px;font-weight:500;margin-bottom:6px}
+  .founder-role{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+  .founder-quote{font-size:15px;line-height:1.7;color:var(--text-dim);font-style:italic;border-left:2px solid var(--accent);padding-left:20px}
+
+  /* Capabilities */
+  .capabilities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  .cap{background:var(--bg);padding:48px 36px;transition:all .5s;position:relative;overflow:hidden;min-height:340px;display:flex;flex-direction:column;justify-content:space-between}
+  .cap::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,124,255,0.08),transparent 60%);opacity:0;transition:opacity .5s}
+  .cap:hover::before{opacity:1}
+  .cap:hover{background:var(--surface)}
+  .cap-num{font-family:'JetBrains Mono';font-size:12px;color:var(--text-mute);letter-spacing:.1em}
+  .cap-icon{width:56px;height:56px;border:1px solid var(--line-2);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:24px 0;background:rgba(255,255,255,0.02);position:relative;transition:all .4s}
+  .cap:hover .cap-icon{border-color:var(--accent);background:var(--accent-soft)}
+  .cap-icon svg{width:24px;height:24px;stroke:var(--text);stroke-width:1.5;fill:none}
+  .cap h3{font-family:'Space Grotesk';font-size:24px;font-weight:500;margin-bottom:14px;letter-spacing:-.01em}
+  .cap p{font-size:14px;line-height:1.7;color:var(--text-dim)}
+  .cap-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .cap-tags span{font-family:'JetBrains Mono';font-size:10px;padding:4px 10px;border:1px solid var(--line-2);border-radius:100px;color:var(--text-mute);letter-spacing:.05em}
+
+  /* Projects */
+  .projects{background:linear-gradient(180deg,var(--bg-2) 0%,var(--bg) 100%)}
+  .projects-list{display:flex;flex-direction:column;gap:2px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  .project{display:grid;grid-template-columns:100px 1fr 200px 120px 60px;gap:40px;align-items:center;padding:36px 40px;background:var(--bg);transition:all .4s;cursor:none;position:relative;overflow:hidden}
+  .project::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(79,124,255,0.06),transparent);opacity:0;transition:opacity .4s}
+  .project:hover::before{opacity:1}
+  .project:hover{background:var(--surface)}
+  .project:hover .project-arrow{transform:translate(4px,-4px);color:var(--accent)}
+  .project-num{font-family:'JetBrains Mono';font-size:12px;color:var(--text-mute);letter-spacing:.1em}
+  .project-info h3{font-family:'Space Grotesk';font-size:22px;font-weight:500;margin-bottom:6px;letter-spacing:-.01em}
+  .project-info p{font-size:13px;color:var(--text-dim)}
+  .project-cat{font-family:'JetBrains Mono';font-size:11px;color:var(--text-mute);letter-spacing:.1em;text-transform:uppercase}
+  .project-year{font-family:'JetBrains Mono';font-size:13px;color:var(--text-dim)}
+  .project-arrow{width:40px;height:40px;border:1px solid var(--line-2);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .4s;color:var(--text-dim)}
+  .project-arrow svg{width:14px;height:14px}
+
+  /* Process */
+  .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+  .process-grid::before{content:'';position:absolute;top:30px;left:5%;right:5%;height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 20%,var(--line-2) 80%,transparent)}
+  .step{position:relative;padding-top:60px}
+  .step-dot{position:absolute;top:22px;left:0;width:18px;height:18px;border-radius:50%;background:var(--bg);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;transition:all .4s}
+  .step-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .4s}
+  .step:hover .step-dot{border-color:var(--accent);box-shadow:0 0 20px var(--accent-soft)}
+  .step:hover .step-dot::after{opacity:1}
+  .step-num{font-family:'JetBrains Mono';font-size:11px;color:var(--accent);letter-spacing:.15em;margin-bottom:14px}
+  .step h3{font-family:'Space Grotesk';font-size:22px;font-weight:500;margin-bottom:12px}
+  .step p{font-size:14px;line-height:1.7;color:var(--text-dim)}
+
+  /* Contact */
+  .contact{background:linear-gradient(180deg,var(--bg) 0%,#020306 100%);position:relative;overflow:hidden}
+  .contact::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1200px;height:600px;background:radial-gradient(ellipse,rgba(79,124,255,0.1),transparent 70%);filter:blur(60px);pointer-events:none}
+  .contact-wrap{text-align:center;position:relative;z-index:2}
+  .contact h2{font-family:'Space Grotesk';font-size:clamp(48px,8vw,120px);font-weight:500;line-height:1;letter-spacing:-.03em;margin-bottom:40px;background:linear-gradient(180deg,#fff 0%,#6b7280 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .contact h2 em{font-style:italic;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:400}
+  .contact p{max-width:560px;margin:0 auto 48px;font-size:17px;color:var(--text-dim);line-height:1.7}
+  .contact-email{display:inline-flex;align-items:center;gap:16px;padding:20px 36px;border:1px solid var(--line-2);border-radius:100px;font-family:'Space Grotesk';font-size:20px;color:var(--text);transition:all .4s;background:rgba(255,255,255,0.02);backdrop-filter:blur(10px);margin-bottom:60px}
+  .contact-email:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .contact-email svg{width:18px;height:18px;stroke:var(--accent)}
+  .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;max-width:900px;margin:0 auto}
+  .contact-item{background:var(--bg);padding:36px 28px;text-align:left}
+  .contact-item-label{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-mute);margin-bottom:12px}
+  .contact-item-value{font-family:'Space Grotesk';font-size:16px;color:var(--text);font-weight:500}
+
+  /* Footer */
+  footer{padding:60px 48px 40px;border-top:1px solid var(--line);background:#020306;position:relative;z-index:2}
+  .footer-wrap{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+  .footer-left{font-family:'JetBrains Mono';font-size:11px;color:var(--text-mute);letter-spacing:.1em}
+  .footer-right{display:flex;gap:30px}
+  .footer-right a{font-size:12px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;transition:color .3s}
+  .footer-right a:hover{color:var(--accent)}
+
+  /* Reveal animations */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* Responsive */
+  @media (max-width:1024px){
+    .about-grid{grid-template-columns:1fr;gap:60px}
+    .capabilities-grid{grid-template-columns:repeat(2,1fr)}
+    .process-grid{grid-template-columns:repeat(2,1fr);gap:40px}
+    .process-grid::before{display:none}
+    .step{padding-top:0}
+    .step-dot{display:none}
+    .project{grid-template-columns:1fr 40px;gap:20px;padding:28px}
+    .project-cat,.project-year{display:none}
+    .contact-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    section{padding:100px 24px}
+    .hero{padding:100px 24px 60px}
+    .capabilities-grid{grid-template-columns:1fr}
+    .hero-meta{flex-direction:column;align-items:flex-start;gap:24px}
+    footer{padding:40px 24px}
+    .contact-email{font-size:16px;padding:16px 24px}
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Grid background -->
+<div class="grid-bg"></div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <a href="#home" class="logo">
+    <div class="logo-mark"></div>
+    <div>JAMAL <span>STUDIO</span></div>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#projects">Projects</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="nav-cta">Start a Project</a>
+  </div>
+  <div class="menu-toggle" id="menuToggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag reveal"><span class="dot"></span> Digital Development Studio · Est. 2026</div>
+    <h1 class="reveal">WE BUILD <span class="accent">WHAT'S</span><br/>NEXT.</h1>
+    <p class="reveal">Jamal Studio is a high-performance digital development studio creating intelligent software, immersive digital experiences, and next-generation products.</p>
+    <div class="hero-ctas reveal">
+      <a href="#projects" class="btn btn-primary">
+        Explore Our Work
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#contact" class="btn btn-secondary">
+        Start a Project
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+    <div class="hero-meta reveal">
+      <div class="hero-meta-item">
+        <span>Studio</span>
+        <strong>JAMAL STUDIO</strong>
+      </div>
+      <div class="hero-meta-item">
+        <span>Founder & Creator</span>
+        <strong>LAWANI DJAMIOU ALADE</strong>
+      </div>
+      <div class="hero-meta-item">
+        <span>Discipline</span>
+        <strong>Software · AI · Digital</strong>
+      </div>
+      <div class="hero-meta-item">
+        <span>Status</span>
+        <strong>Accepting Projects</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-label">01 — About the Studio</div>
+        <h2 class="section-title">Engineering the <em>future</em> of digital products.</h2>
+      </div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p><strong>Jamal Studio</strong> is an independent technology and digital development studio founded by <strong>Lawani Djamiou Alade</strong>. We design and build software, platforms, and digital experiences for ambitious companies and forward-thinking founders.</p>
+        <p>Our work sits at the intersection of <strong>software engineering, artificial intelligence, and product design</strong>. We approach every project as a system — architected for performance, built for scale, and designed with precision.</p>
+        <p>From intelligent web applications to complex digital infrastructure, we deliver work that is technically rigorous, visually refined, and built to last.</p>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-num">50+</div>
+            <div class="stat-label">Projects Delivered</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">12</div>
+            <div class="stat-label">Countries Served</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">99%</div>
+            <div class="stat-label">Client Retention</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">24/7</div>
+            <div class="stat-label">Engineering Support</div>
+          </div>
+        </div>
+      </div>
+      <div class="founder-card reveal">
+        <div class="founder-avatar">LA</div>
+        <div class="founder-name">Lawani Djamiou Alade</div>
+        <div class="founder-role">Founder · Principal Engineer</div>
+        <p class="founder-quote">"Technology should feel inevitable. We build systems that are precise, intelligent, and quietly powerful — the kind of work that defines what comes next."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Capabilities -->
+<section id="capabilities">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-label">02 — Capabilities</div>
+        <h2 class="section-title">Full-spectrum <em>digital</em> engineering.</h2>
+      </div>
+      <p class="section-desc">A unified studio covering strategy, design, and engineering — built to deliver sophisticated digital products end-to-end.</p>
+    </div>
+    <div class="capabilities-grid">
+      <div class="cap reveal">
+        <div>
+          <div class="cap-num">/ 01</div>
+          <div class="cap-icon">
+            <svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+          </div>
+          <h3>Software Engineering</h3>
+          <p>Production-grade applications, APIs, and platforms built with modern architectures and rigorous engineering standards.</p>
+        </div>
+        <div class="cap-tags"><span>React</span><span>Node</span><span>TypeScript</span><span>Go</span></div>
+      </div>
+      <div class="cap reveal">
+        <div>
+          <div class="cap-num">/ 02</div>
+          <div class="cap-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m10 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"/></svg>
+          </div>
+          <h3>AI & Machine Learning</h3>
+          <p>Intelligent systems, LLM integrations, and custom AI solutions that bring measurable value to products and workflows.</p>
+        </div>
+        <div class="cap-tags"><span>LLMs</span><span>RAG</span><span>Agents</span><span>ML Ops</span></div>
+      </div>
+      <div class="cap reveal">
+        <div>
+          <div class="cap-num">/ 03</div>
+          <div class="cap-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <h3>Product Design</h3>
+          <p>Interfaces and experiences engineered for clarity, performance, and conversion — from concept to production-ready design systems.</p>
+        </div>
+        <div class="cap-tags"><span>UX</span><span>UI</span><span>Systems</span><span>Motion</span></div>
+      </div>
+      <div class="cap reveal">
+        <div>
+          <div class="cap-num">/ 04</div>
+          <div class="cap-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Web Platforms</h3>
+          <p>High-performance websites, marketing platforms, and web applications built for speed, SEO, and scale.</p>
+        </div>
+        <div class="cap-tags"><span>Next.js</span><span>Headless</span><span>Edge</span><span>SEO</span></div>
+      </div>
+      <div class="cap reveal">
+        <div>
+          <div class="cap-num">/ 05</div>
+          <div class="cap-icon">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          </div>
+          <h3>Mobile Development</h3>
+          <p>Native and cross-platform mobile applications with fluid interactions, offline-first architecture, and polished UX.</p>
+        </div>
+        <div class="cap-tags"><span>iOS</span><span>Android</span><span>Flutter</span><span>RN</span></div>
+      </div>
+      <div class="cap reveal">
+        <div>
+          <div class="cap-num">/ 06</div>
+          <div class="cap-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
+          </div>
+          <h3>Cloud & Infrastructure</h3>
+          <p>Scalable cloud architecture, DevOps pipelines, and infrastructure designed for reliability, security, and global performance.</p>
+        </div>
+        <div class="cap-tags"><span>AWS</span><span>Docker</span><span>K8s</span><span>CI/CD</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-label">03 — Selected Work</div>
+        <h2 class="section-title">Products we've <em>shipped</em>.</h2>
+      </div>
+      <p class="section-desc">A selection of recent projects spanning SaaS platforms, AI systems, and digital products delivered for clients worldwide.</p>
+    </div>
+    <div class="projects-list">
+      <div class="project reveal">
+        <div class="project-num">/ 01</div>
+        <div class="project-info">
+          <h3>Helios Analytics Platform</h3>
+          <p>Real-time data intelligence dashboard for enterprise operations</p>
+        </div>
+        <div class="project-cat">SaaS · AI</div>
+        <div class="project-year">2026</div>
+        <div class="project-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+      <div class="project reveal">
+        <div class="project-num">/ 02</div>
+        <div class="project-info">
+          <h3>Vertex Commerce Engine</h3>
+          <p>Headless commerce infrastructure powering global retail brands</p>
+        </div>
+        <div class="project-cat">E-Commerce</div>
+        <div class="project-year">2026</div>
+        <div class="project-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+      <div class="project reveal">
+        <div class="project-num">/ 03</div>
+        <div class="project-info">
+          <h3>Nova AI Assistant</h3>
+          <p>Conversational AI platform with custom knowledge retrieval</p>
+        </div>
+        <div class="project-cat">AI · LLM</div>
+        <div class="project-year">2025</div>
+        <div class="project-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+      <div class="project reveal">
+        <div class="project-num">/ 04</div>
+        <div class="project-info">
+          <h3>Orbit Finance App</h3>
+          <p>Mobile banking experience for next-generation fintech</p>
+        </div>
+        <div class="project-cat">Mobile · Fintech</div>
+        <div class="project-year">2025</div>
+        <div class="project-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+      <div class="project reveal">
+        <div class="project-num">/ 05</div>
+        <div class="project-info">
+          <h3>Stratos Cloud Platform</h3>
+          <p>Developer infrastructure for distributed cloud applications</p>
+        </div>
+        <div class="project-cat">DevTools · Cloud</div>
+        <div class="project-year">2025</div>
+        <div class="project-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+      <div class="project reveal">
+        <div class="project-num">/ 06</div>
+        <div class="project-info">
+          <h3>Lumen Creative Suite</h3>
+          <p>Collaborative design tool for distributed creative teams</p>
+        </div>
+        <div class="project-cat">Productivity</div>
+        <div class="project-year">2024</div>
+        <div class="project-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section id="process">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-label">04 — Our Process</div>
+        <h2 class="section-title">A disciplined <em>method</em>.</h2>
+      </div>
+      <p class="section-desc">Every engagement follows a proven framework — engineered for clarity, velocity, and exceptional outcomes.</p>
+    </div>
+    <div class="process-grid">
+      <div class="step reveal">
+        <div class="step-dot"></div>
+        <div class="step-num">PHASE 01</div>
+        <h3>Discover</h3>
+        <p>Deep research into your business, users, and technical landscape. We define the problem before we design the solution.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-dot"></div>
+        <div class="step-num">PHASE 02</div>
+        <h3>Architect</h3>
+        <p>System design, technical strategy, and product architecture. Every decision is deliberate and defensible.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-dot"></div>
+        <div class="step-num">PHASE 03</div>
+        <h3>Build</h3>
+        <p>Iterative engineering sprints with continuous delivery. Production-grade code, reviewed and tested at every step.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-dot"></div>
+        <div class="step-num">PHASE 04</div>
+        <h3>Evolve</h3>
+        <p>Launch, measure, and iterate. We stay engaged to ensure your product grows, scales, and continues to perform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="container contact-wrap">
+    <div class="section-label reveal" style="justify-content:center">05 — Contact</div>
+    <h2 class="reveal">Let's build<br/><em>something real.</em></h2>
+    <p class="reveal">We partner with ambitious teams and founders to build digital products that matter. If you have a project in mind, we'd love to hear about it.</p>
+    <a href="mailto:hello@jamalstudio.dev" class="contact-email reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+      hello@jamalstudio.dev
+    </a>
+    <div class="contact-grid reveal">
+      <div class="contact-item">
+        <div class="contact-item-label">Studio</div>
+        <div class="contact-item-value">Jamal Studio</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Founder</div>
+        <div class="contact-item-value">Lawani Djamiou Alade</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Availability</div>
+        <div class="contact-item-value">Q4 2026 · Limited</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-left">© 2026 JAMAL STUDIO · CRAFTED BY LAWANI DJAMIOU ALADE</div>
+    <div class="footer-right">
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+      <a href="#">Dribbble</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ Custom Cursor ============ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX=0,mouseY=0,ringX=0,ringY=0;
+document.addEventListener('mousemove',e=>{
+  mouseX=e.clientX;mouseY=e.clientY;
+  dot.style.left=mouseX+'px';dot.style.top=mouseY+'px';
+});
+function animateRing(){
+  ringX+=(mouseX-ringX)*0.15;
+  ringY+=(mouseY-ringY)*0.15;
+  ring.style.left=ringX+'px';ring.style.top=ringY+'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+const hoverables = document.querySelectorAll('a, button, .cap, .project, .btn, .contact-email, .menu-toggle');
+hoverables.forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    ring.classList.add('hover');
+    dot.classList.add('hover');
+  });
+  el.addEventListener('mouseleave',()=>{
+    ring.classList.remove('hover');
+    dot.classList.remove('hover');
+  });
+});
+document.addEventListener('mousedown',()=>ring.classList.add('click'));
+document.addEventListener('mouseup',()=>ring.classList.remove('click'));
+
+/* Magnetic effect on buttons */
+document.querySelectorAll('.btn, .nav-cta, .contact-email').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const rect=btn.getBoundingClientRect();
+    const x=e.clientX-rect.left-rect.width/2;
+    const y=e.clientY-rect.top-rect.height/2;
+    btn.style.transform=`translate(${x*0.15}px,${y*0.25}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{
+    btn.style.transform='';
+  });
+});
+
+/* ============ Nav scroll ============ */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>50)nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+
+/* Mobile menu */
+document.getElementById('menuToggle').addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open'));
+});
+
+/* ============ Hero Canvas Animation ============ */
+const canvas=document.getElementById('heroCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){
+  W=canvas.width=canvas.offsetWidth;
+  H=canvas.height=canvas.offsetHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+const PARTICLE_COUNT=window.innerWidth<768?40:80;
+for(let i=0;i<PARTICLE_COUNT;i++){
+  particles.push({
+    x:Math.random()*W,
+    y:Math.random()*H,
+    vx:(Math.random()-0.5)*0.3,
+    vy:(Math.random()-0.5)*0.3,
+    r:Math.random()*1.5+0.5
+  });
+}
+
+let heroMouse={x:W/2,y:H/2,active:false};
+canvas.addEventListener('mousemove',e=>{
+  const rect=canvas.getBoundingClientRect();
+  heroMouse.x=e.clientX-rect.left;
+  heroMouse.y=e.clientY-rect.top;
+  heroMouse.active=true;
+});
+canvas.addEventListener('mouseleave',()=>heroMouse.active=false);
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  
+  // Grid fade
+  ctx.strokeStyle='rgba(79,124,255,0.04)';
+  ctx.lineWidth=1;
+  const grid=80;
+  for(let x=0;x<W;x+=grid){
+    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
+  }
+  for(let y=0;y<H;y+=grid){
+    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+  }
+  
+  // Particles
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    
+    // Mouse attraction
+    if(heroMouse.active){
+      const dx=heroMouse.x-p.x,dy=heroMouse.y-p.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<200){
+        p.x+=dx*0.002;
+        p.y+=dy*0.002;
+      }
+    }
+    
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(79,124,255,0.6)';
+    ctx.fill();
+  });
+  
+  // Connections
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<140){
+        ctx.strokeStyle=`rgba(79,124,255,${0.15*(1-dist/140)})`;
+        ctx.lineWidth=0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+      }
+    }
+    // Mouse connections
+    if(heroMouse.active){
+      const dx=particles[i].x-heroMouse.x;
+      const dy=particles[i].y-heroMouse.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<180){
+        ctx.strokeStyle=`rgba(139,92,246,${0.3*(1-dist/180)})`;
+        ctx.lineWidth=0.8;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(heroMouse.x,heroMouse.y);
+        ctx.stroke();
+      }
+    }
+  }
+  
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ============ Reveal on scroll ============ */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* Smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href');
+    if(id.length>1){
+      const el=document.querySelector(id);
+      if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
+    }
+  });
+});
+</script>
+</body>
+</html>
