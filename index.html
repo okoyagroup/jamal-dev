@@ -34,13 +34,13 @@
             --text-secondary: #334155;
             --text-muted: #64748b;
             --text-dim: #94a3b8;
-            --primary: #6d28d9;
-            --primary-2: #4f46e5;
-            --accent: #0891b2;
+            --primary: #0066ff;
+            --primary-2: #0047cc;
+            --accent: #00b4d8;
             --accent-2: #059669;
-            --gradient: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
-            --gradient-soft: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(8, 145, 178, 0.08) 100%);
-            --gradient-text: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+            --gradient: linear-gradient(135deg, #0066ff 0%, #00b4d8 100%);
+            --gradient-soft: linear-gradient(135deg, rgba(0, 102, 255, 0.08) 0%, rgba(0, 180, 216, 0.08) 100%);
+            --gradient-text: linear-gradient(135deg, #0066ff 0%, #00b4d8 100%);
             --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
             --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
             --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.08);
@@ -68,7 +68,6 @@
             color: var(--text);
         }
 
-        /* 3D Canvas */
         #canvas3d {
             position: fixed;
             top: 0; left: 0;
@@ -78,19 +77,17 @@
             will-change: transform;
         }
 
-        /* Ambient gradient overlay */
         .ambient {
             position: fixed;
             inset: 0;
             z-index: 1;
             pointer-events: none;
             background: 
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.08), transparent),
-                radial-gradient(ellipse 60% 50% at 80% 50%, rgba(8, 145, 178, 0.05), transparent),
-                radial-gradient(ellipse 60% 50% at 20% 80%, rgba(124, 58, 237, 0.04), transparent);
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 102, 255, 0.06), transparent),
+                radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0, 180, 216, 0.04), transparent),
+                radial-gradient(ellipse 60% 50% at 20% 80%, rgba(0, 102, 255, 0.03), transparent);
         }
 
-        /* Grid pattern overlay */
         .grid-pattern {
             position: fixed;
             inset: 0;
@@ -110,7 +107,6 @@
             min-height: 100vh;
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -149,20 +145,18 @@
         }
 
         .logo-mark {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             flex-shrink: 0;
-            filter: drop-shadow(0 4px 12px rgba(124, 58, 237, 0.25));
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .logo:hover .logo-mark {
-            transform: rotate(-8deg) scale(1.05);
-            filter: drop-shadow(0 6px 20px rgba(124, 58, 237, 0.4));
+            transform: scale(1.08);
         }
 
         .logo-mark svg {
@@ -250,7 +244,6 @@
             justify-content: center;
         }
 
-        /* Pages */
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
 
@@ -259,7 +252,6 @@
             to { opacity: 1; }
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -387,7 +379,6 @@
             box-shadow: var(--shadow);
         }
 
-        /* Stats */
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -433,7 +424,6 @@
             letter-spacing: 0.05em;
         }
 
-        /* Sections */
         .section {
             padding: 8rem 2rem;
             max-width: 1400px;
@@ -480,7 +470,6 @@
             line-height: 1.7;
         }
 
-        /* Services Grid */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -503,7 +492,7 @@
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.4), transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
         }
@@ -513,7 +502,7 @@
             position: absolute;
             top: -50%; right: -50%;
             width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(124, 58, 237, 0.04), transparent 60%);
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.04), transparent 60%);
             opacity: 0;
             transition: opacity 0.4s ease;
             pointer-events: none;
@@ -548,7 +537,7 @@
             color: white;
             border-color: transparent;
             transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.25);
         }
 
         .service-card h3 {
@@ -582,7 +571,6 @@
             color: var(--accent);
         }
 
-        /* Gallery */
         .gallery-container {
             position: relative;
             overflow: hidden;
@@ -726,16 +714,15 @@
             color: white;
         }
 
-        .project-1 { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
-        .project-2 { background: linear-gradient(135deg, #22d3ee, #0891b2); }
-        .project-3 { background: linear-gradient(135deg, #fb923c, #ea580c); }
+        .project-1 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .project-2 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .project-3 { background: linear-gradient(135deg, #f97316, #ea580c); }
         .project-4 { background: linear-gradient(135deg, #60a5fa, #2563eb); }
-        .project-5 { background: linear-gradient(135deg, #c084fc, #9333ea); }
+        .project-5 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
         .project-6 { background: linear-gradient(135deg, #64748b, #334155); }
-        .project-7 { background: linear-gradient(135deg, #34d399, #059669); }
-        .project-8 { background: linear-gradient(135deg, #f472b6, #db2777); }
+        .project-7 { background: linear-gradient(135deg, #10b981, #059669); }
+        .project-8 { background: linear-gradient(135deg, #ec4899, #db2777); }
 
-        /* Testimonials */
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -794,7 +781,6 @@
         .testimonial-name { font-weight: 600; font-size: 0.95rem; }
         .testimonial-role { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
 
-        /* CTA Section */
         .cta-section {
             background: var(--bg-2);
             border: 1px solid var(--border);
@@ -816,7 +802,7 @@
             top: -50%; left: 50%;
             transform: translateX(-50%);
             width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(124, 58, 237, 0.08), transparent 60%);
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.06), transparent 60%);
             pointer-events: none;
         }
 
@@ -839,7 +825,6 @@
 
         .cta-section .btn { position: relative; }
 
-        /* About Page */
         .about-hero {
             padding: 12rem 2rem 5rem;
             text-align: center;
@@ -889,8 +874,8 @@
             position: absolute;
             inset: 0;
             background: 
-                radial-gradient(circle at 30% 30%, rgba(124, 58, 237, 0.12), transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(8, 145, 178, 0.1), transparent 50%);
+                radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.1), transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(0, 180, 216, 0.08), transparent 50%);
         }
 
         .about-visual::after {
@@ -927,7 +912,7 @@
             font-size: 1.75rem;
             font-weight: 600;
             color: white;
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.25);
+            box-shadow: 0 10px 40px rgba(0, 102, 255, 0.25);
         }
 
         .founder-card h3 { 
@@ -994,7 +979,7 @@
             background: var(--gradient);
             color: white;
             border-color: transparent;
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.25);
         }
 
         .value-card h3 { 
@@ -1007,7 +992,6 @@
             line-height: 1.6;
         }
 
-        /* Contact Page */
         .contact-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -1131,7 +1115,7 @@
             outline: none;
             border-color: var(--primary);
             background: white;
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
         }
 
         .form-group select {
@@ -1203,7 +1187,6 @@
         .form-success h3 { margin-bottom: 0.5rem; }
         .form-success p { color: var(--text-muted); font-size: 0.95rem; }
 
-        /* Footer */
         footer {
             background: var(--bg-2);
             border-top: 1px solid var(--border);
@@ -1285,10 +1268,9 @@
             color: white;
             border-color: transparent;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.2);
         }
 
-        /* Scroll Animations */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -1300,7 +1282,6 @@
             transform: translateY(0);
         }
 
-        /* Responsive */
         @media (max-width: 968px) {
             .about-content,
             .contact-container {
@@ -1357,11 +1338,10 @@
             nav { padding: 1rem 1.25rem; }
         }
 
-        /* Loading screen */
         .loader {
             position: fixed;
             inset: 0;
-            background: var(--bg);
+            background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1374,16 +1354,15 @@
         .loader-content { text-align: center; }
 
         .loader-logo {
-            width: 64px;
-            height: 64px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 1.25rem;
             animation: loaderPulse 1.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.3));
         }
 
         @keyframes loaderPulse {
             0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.08); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 0.85; }
         }
 
         .loader-text {
@@ -1392,12 +1371,9 @@
             font-size: 0.9rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { 
@@ -1411,18 +1387,32 @@
     <div class="loader" id="loader">
         <div class="loader-content">
             <div class="loader-logo">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#7c3aed"/>
-                            <stop offset="100%" stop-color="#0891b2"/>
+                        <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="100%" stop-color="#c8d6e5"/>
+                        </linearGradient>
+                        <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#0047cc"/>
+                            <stop offset="50%" stop-color="#0066ff"/>
+                            <stop offset="100%" stop-color="#00d4ff"/>
+                        </linearGradient>
+                        <linearGradient id="blueDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#003399"/>
+                            <stop offset="100%" stop-color="#0066ff"/>
+                        </linearGradient>
+                        <linearGradient id="blueLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00b4ff"/>
+                            <stop offset="100%" stop-color="#00e5ff"/>
                         </linearGradient>
                     </defs>
-                    <rect x="8" y="8" width="84" height="84" rx="20" ry="20" fill="none" stroke="url(#loaderGrad)" stroke-width="3" opacity="0.9"/>
-                    <path d="M32 28 L32 62 Q32 78 48 78 L68 78" fill="none" stroke="url(#loaderGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="68" cy="78" r="4.5" fill="url(#loaderGrad)"/>
-                    <circle cx="32" cy="28" r="3" fill="url(#loaderGrad)" opacity="0.8"/>
-                    <path d="M72 32 L78 38 L72 44" fill="none" stroke="url(#loaderGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+                    <!-- White J -->
+                    <path d="M 75 40 L 75 110 Q 75 140 50 140 Q 30 140 30 120 L 45 120 Q 45 125 50 125 Q 60 125 60 110 L 60 40 Z" fill="url(#whiteGrad)"/>
+                    <!-- Blue D outer -->
+                    <path d="M 85 40 L 130 40 Q 170 40 170 90 Q 170 140 130 140 L 85 140 L 85 110 L 125 110 Q 140 110 140 90 Q 140 70 125 70 L 85 70 Z" fill="url(#blueGrad)"/>
+                    <!-- Blue D inner fold -->
+                    <path d="M 85 70 L 110 70 L 110 110 L 85 110 Z" fill="url(#blueLight)" opacity="0.6"/>
                 </svg>
             </div>
             <div class="loader-text">Jamal Dev Studio</div>
@@ -1438,23 +1428,28 @@
             <div class="nav-container">
                 <div class="logo" onclick="navigateTo('home')">
                     <div class="logo-mark">
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Jamal Dev Studio Logo">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Jamal Dev Studio JD Logo">
                             <defs>
-                                <linearGradient id="logoGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#7c3aed"/>
-                                    <stop offset="50%" stop-color="#4f46e5"/>
-                                    <stop offset="100%" stop-color="#0891b2"/>
+                                <linearGradient id="whiteGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff"/>
+                                    <stop offset="100%" stop-color="#c8d6e5"/>
                                 </linearGradient>
-                                <linearGradient id="logoGradAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#0891b2"/>
-                                    <stop offset="100%" stop-color="#059669"/>
+                                <linearGradient id="blueGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0047cc"/>
+                                    <stop offset="50%" stop-color="#0066ff"/>
+                                    <stop offset="100%" stop-color="#00d4ff"/>
+                                </linearGradient>
+                                <linearGradient id="blueLightNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#00b4ff"/>
+                                    <stop offset="100%" stop-color="#00e5ff"/>
                                 </linearGradient>
                             </defs>
-                            <rect x="8" y="8" width="84" height="84" rx="20" ry="20" fill="none" stroke="url(#logoGradNav)" stroke-width="3" opacity="0.9"/>
-                            <path d="M32 28 L32 62 Q32 78 48 78 L68 78" fill="none" stroke="url(#logoGradNav)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="68" cy="78" r="4.5" fill="url(#logoGradAccent)"/>
-                            <circle cx="32" cy="28" r="3" fill="url(#logoGradAccent)" opacity="0.8"/>
-                            <path d="M72 32 L78 38 L72 44" fill="none" stroke="url(#logoGradAccent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+                            <!-- White J -->
+                            <path d="M 75 40 L 75 110 Q 75 140 50 140 Q 30 140 30 120 L 45 120 Q 45 125 50 125 Q 60 125 60 110 L 60 40 Z" fill="url(#whiteGradNav)"/>
+                            <!-- Blue D outer -->
+                            <path d="M 85 40 L 130 40 Q 170 40 170 90 Q 170 140 130 140 L 85 140 L 85 110 L 125 110 Q 140 110 140 90 Q 140 70 125 70 L 85 70 Z" fill="url(#blueGradNav)"/>
+                            <!-- Blue D inner fold -->
+                            <path d="M 85 70 L 110 70 L 110 110 L 85 110 Z" fill="url(#blueLightNav)" opacity="0.6"/>
                         </svg>
                     </div>
                     <div class="logo-text">
@@ -1519,7 +1514,6 @@
                 </div>
             </section>
 
-            <!-- Services Preview -->
             <section class="section">
                 <div class="section-header reveal">
                     <span class="section-tag">
@@ -1563,7 +1557,6 @@
                 </div>
             </section>
 
-            <!-- Project Gallery -->
             <section class="section">
                 <div class="section-header reveal">
                     <span class="section-tag">
@@ -1578,7 +1571,6 @@
                 </div>
             </section>
 
-            <!-- Testimonials -->
             <section class="section">
                 <div class="section-header reveal">
                     <span class="section-tag">
@@ -1643,7 +1635,6 @@
                 </div>
             </section>
 
-            <!-- CTA -->
             <div class="cta-section reveal">
                 <h2>Ready to build something <span class="gradient-text">remarkable</span>?</h2>
                 <p>Let's discuss your project and bring your vision to life with cutting-edge technology.</p>
@@ -1807,7 +1798,6 @@
                 </div>
             </section>
 
-            <!-- Process -->
             <section class="section">
                 <div class="section-header reveal">
                     <span class="section-tag">
@@ -1981,23 +1971,25 @@
                 <div class="footer-brand">
                     <div class="logo" style="margin-bottom: 0.5rem;">
                         <div class="logo-mark">
-                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Jamal Dev Studio Logo">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Jamal Dev Studio JD Logo">
                                 <defs>
-                                    <linearGradient id="logoGradFoot" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#7c3aed"/>
-                                        <stop offset="50%" stop-color="#4f46e5"/>
-                                        <stop offset="100%" stop-color="#0891b2"/>
+                                    <linearGradient id="whiteGradFoot" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#ffffff"/>
+                                        <stop offset="100%" stop-color="#c8d6e5"/>
                                     </linearGradient>
-                                    <linearGradient id="logoGradAccentFoot" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#0891b2"/>
-                                        <stop offset="100%" stop-color="#059669"/>
+                                    <linearGradient id="blueGradFoot" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0047cc"/>
+                                        <stop offset="50%" stop-color="#0066ff"/>
+                                        <stop offset="100%" stop-color="#00d4ff"/>
+                                    </linearGradient>
+                                    <linearGradient id="blueLightFoot" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#00b4ff"/>
+                                        <stop offset="100%" stop-color="#00e5ff"/>
                                     </linearGradient>
                                 </defs>
-                                <rect x="8" y="8" width="84" height="84" rx="20" ry="20" fill="none" stroke="url(#logoGradFoot)" stroke-width="3" opacity="0.9"/>
-                                <path d="M32 28 L32 62 Q32 78 48 78 L68 78" fill="none" stroke="url(#logoGradFoot)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="68" cy="78" r="4.5" fill="url(#logoGradAccentFoot)"/>
-                                <circle cx="32" cy="28" r="3" fill="url(#logoGradAccentFoot)" opacity="0.8"/>
-                                <path d="M72 32 L78 38 L72 44" fill="none" stroke="url(#logoGradAccentFoot)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+                                <path d="M 75 40 L 75 110 Q 75 140 50 140 Q 30 140 30 120 L 45 120 Q 45 125 50 125 Q 60 125 60 110 L 60 40 Z" fill="url(#whiteGradFoot)"/>
+                                <path d="M 85 40 L 130 40 Q 170 40 170 90 Q 170 140 130 140 L 85 140 L 85 110 L 125 110 Q 140 110 140 90 Q 140 70 125 70 L 85 70 Z" fill="url(#blueGradFoot)"/>
+                                <path d="M 85 70 L 110 70 L 110 110 L 85 110 Z" fill="url(#blueLightFoot)" opacity="0.6"/>
                             </svg>
                         </div>
                         <div class="logo-text">
@@ -2047,15 +2039,11 @@
     </div>
 
     <script>
-        // ============================================
-        // THREE.JS 3D BACKGROUND - LIGHT THEME
-        // ============================================
         let scene, camera, renderer, particles, geometries = [];
         let targetScroll = 0;
         let currentScroll = 0;
         let targetMouseX = 0, targetMouseY = 0;
         let currentMouseX = 0, currentMouseY = 0;
-        let animationId;
         let isMobile = window.innerWidth < 768;
         let isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
 
@@ -2085,11 +2073,10 @@
                 positions[i3 + 1] = (Math.random() - 0.5) * 120;
                 positions[i3 + 2] = (Math.random() - 0.5) * 80;
 
-                // Light theme: soft purple/cyan particles
                 const mixFactor = Math.random();
-                colors[i3] = 0.49 * (1 - mixFactor) + 0.03 * mixFactor;     // R
-                colors[i3 + 1] = 0.23 * (1 - mixFactor) + 0.57 * mixFactor; // G
-                colors[i3 + 2] = 0.93 * (1 - mixFactor) + 0.70 * mixFactor; // B
+                colors[i3] = 0.0 * (1 - mixFactor) + 0.0 * mixFactor;
+                colors[i3 + 1] = 0.4 * (1 - mixFactor) + 0.7 * mixFactor;
+                colors[i3 + 2] = 1.0 * (1 - mixFactor) + 0.85 * mixFactor;
             }
 
             particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -2099,7 +2086,7 @@
                 size: isMobile ? 0.12 : 0.15,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.35,
+                opacity: 0.3,
                 blending: THREE.NormalBlending,
                 sizeAttenuation: true
             });
@@ -2107,18 +2094,17 @@
             particles = new THREE.Points(particleGeometry, particleMaterial);
             scene.add(particles);
 
-            // Light theme wireframe geometries
             const geoMaterial1 = new THREE.MeshBasicMaterial({ 
-                color: 0x7c3aed, 
-                wireframe: true,
-                transparent: true,
-                opacity: 0.18
-            });
-            const geoMaterial2 = new THREE.MeshBasicMaterial({ 
-                color: 0x0891b2, 
+                color: 0x0066ff, 
                 wireframe: true,
                 transparent: true,
                 opacity: 0.15
+            });
+            const geoMaterial2 = new THREE.MeshBasicMaterial({ 
+                color: 0x00b4ff, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.12
             });
 
             const torus = new THREE.Mesh(new THREE.TorusGeometry(6, 1.5, 16, 40), geoMaterial1);
@@ -2143,7 +2129,7 @@
                 geometries.push({ mesh: torusKnot, basePos: { x: -12, y: -12 }, speed: 0.6 });
             }
 
-            const ambientLight = new THREE.AmbientLight(0x7c3aed, 0.3);
+            const ambientLight = new THREE.AmbientLight(0x0066ff, 0.3);
             scene.add(ambientLight);
 
             window.addEventListener('scroll', () => {
@@ -2170,7 +2156,7 @@
         }
 
         function animate() {
-            animationId = requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
 
             currentScroll += (targetScroll - currentScroll) * 0.1;
             currentMouseX += (targetMouseX - currentMouseX) * 0.05;
@@ -2195,9 +2181,6 @@
             renderer.render(scene, camera);
         }
 
-        // ============================================
-        // GALLERY ITEMS
-        // ============================================
         const projects = [
             { title: 'FinTech Dashboard', tech: 'Web Application • React & Node.js', class: 'project-1' },
             { title: 'E-Commerce Platform', tech: 'Full Stack • Next.js & Stripe', class: 'project-2' },
@@ -2245,9 +2228,6 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        // ============================================
-        // NAVIGATION
-        // ============================================
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(`page-${page}`).classList.add('active');
@@ -2276,9 +2256,6 @@
             document.getElementById('navLinks').classList.toggle('open');
         }
 
-        // ============================================
-        // SCROLL EFFECTS
-        // ============================================
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             const currentScroll = window.scrollY;
@@ -2297,9 +2274,6 @@
             });
         }, { passive: true });
 
-        // ============================================
-        // FORM HANDLING
-        // ============================================
         function handleSubmit(e) {
             e.preventDefault();
             const form = document.getElementById('leadForm');
@@ -2316,9 +2290,6 @@
             }, 1200);
         }
 
-        // ============================================
-        // INIT
-        // ============================================
         window.addEventListener('load', () => {
             buildGallery();
             init3D();
