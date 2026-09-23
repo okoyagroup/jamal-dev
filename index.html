@@ -71,7 +71,6 @@
             will-change: transform;
         }
 
-        /* Ambient gradient overlay */
         .ambient {
             position: fixed;
             inset: 0;
@@ -83,7 +82,6 @@
                 radial-gradient(ellipse 60% 50% at 20% 80%, rgba(124, 92, 255, 0.06), transparent);
         }
 
-        /* Grid pattern overlay */
         .grid-pattern {
             position: fixed;
             inset: 0;
@@ -97,7 +95,6 @@
             -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
         }
 
-        /* Noise texture */
         .noise {
             position: fixed;
             inset: 0;
@@ -152,32 +149,28 @@
             letter-spacing: -0.01em;
         }
 
+        /* Logo mark styles */
         .logo-mark {
-            width: 36px; height: 36px;
-            background: var(--gradient);
-            border-radius: 10px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            color: white;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(124, 92, 255, 0.3);
+            flex-shrink: 0;
+            filter: drop-shadow(0 4px 12px rgba(124, 92, 255, 0.35));
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
         }
 
-        .logo-mark::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
-            animation: shimmer 3s infinite;
+        .logo:hover .logo-mark {
+            transform: rotate(-8deg) scale(1.05);
+            filter: drop-shadow(0 6px 20px rgba(124, 92, 255, 0.5));
         }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .logo-mark svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .logo-text {
@@ -1366,16 +1359,18 @@
 
         .loader-content { text-align: center; }
 
-        .loader-spinner {
-            width: 48px; height: 48px;
-            border: 2px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        .loader-logo {
+            width: 64px;
+            height: 64px;
             margin: 0 auto 1.25rem;
+            animation: loaderPulse 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(124, 92, 255, 0.5));
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes loaderPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.8; }
+        }
 
         .loader-text {
             font-family: 'Space Grotesk', sans-serif;
@@ -1401,7 +1396,19 @@
 <body>
     <div class="loader" id="loader">
         <div class="loader-content">
-            <div class="loader-spinner"></div>
+            <div class="loader-logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#7c5cff"/>
+                            <stop offset="100%" stop-color="#00d4ff"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M20 15 L20 65 Q20 85 40 85 L80 85" fill="none" stroke="url(#loaderGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="80" cy="85" r="6" fill="url(#loaderGrad)"/>
+                    <circle cx="20" cy="15" r="4" fill="url(#loaderGrad)" opacity="0.6"/>
+                </svg>
+            </div>
             <div class="loader-text">Jamal Dev Studio</div>
         </div>
     </div>
@@ -1415,7 +1422,50 @@
         <nav id="navbar">
             <div class="nav-container">
                 <div class="logo" onclick="navigateTo('home')">
-                    <div class="logo-mark">J</div>
+                    <div class="logo-mark">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Jamal Dev Studio Logo">
+                            <defs>
+                                <linearGradient id="logoGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#7c5cff"/>
+                                    <stop offset="50%" stop-color="#5b8cff"/>
+                                    <stop offset="100%" stop-color="#00d4ff"/>
+                                </linearGradient>
+                                <linearGradient id="logoGradAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#00d4ff"/>
+                                    <stop offset="100%" stop-color="#00ffaa"/>
+                                </linearGradient>
+                                <filter id="logoGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                                    <feMerge>
+                                        <feMergeNode in="blur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <!-- Rounded square frame -->
+                            <rect x="8" y="8" width="84" height="84" rx="20" ry="20" fill="none" stroke="url(#logoGradNav)" stroke-width="3" opacity="0.9"/>
+                            <!-- Stylized J as a flowing curve -->
+                            <path d="M32 28 L32 62 Q32 78 48 78 L68 78" 
+                                  fill="none" 
+                                  stroke="url(#logoGradNav)" 
+                                  stroke-width="7" 
+                                  stroke-linecap="round" 
+                                  stroke-linejoin="round"
+                                  filter="url(#logoGlow)"/>
+                            <!-- Accent dot at the end -->
+                            <circle cx="68" cy="78" r="4.5" fill="url(#logoGradAccent)"/>
+                            <!-- Small decorative dot at top -->
+                            <circle cx="32" cy="28" r="3" fill="url(#logoGradAccent)" opacity="0.8"/>
+                            <!-- Code bracket hint -->
+                            <path d="M72 32 L78 38 L72 44" 
+                                  fill="none" 
+                                  stroke="url(#logoGradAccent)" 
+                                  stroke-width="2.5" 
+                                  stroke-linecap="round" 
+                                  stroke-linejoin="round"
+                                  opacity="0.7"/>
+                        </svg>
+                    </div>
                     <div class="logo-text">
                         <span class="brand">JAMAL DEV</span>
                         <span class="sub">Studio</span>
@@ -1533,9 +1583,7 @@
                     <p>A curated selection of our latest work across industries and technologies.</p>
                 </div>
                 <div class="gallery-container reveal">
-                    <div class="gallery-track" id="galleryTrack">
-                        <!-- Items generated by JS -->
-                    </div>
+                    <div class="gallery-track" id="galleryTrack"></div>
                 </div>
             </section>
 
@@ -1571,7 +1619,7 @@
                         <div class="testimonial-stars">
                             <i data-lucide="star" style="width:16px;height:16px;fill:currentColor;"></i>
                             <i data-lucide="star" style="width:16px;height:16px;fill:currentColor;"></i>
-                            <i data="lucide="star" style="width:16px;height:16px;fill:currentColor;"></i>
+                            <i data-lucide="star" style="width:16px;height:16px;fill:currentColor;"></i>
                             <i data-lucide="star" style="width:16px;height:16px;fill:currentColor;"></i>
                             <i data-lucide="star" style="width:16px;height:16px;fill:currentColor;"></i>
                         </div>
@@ -1840,14 +1888,14 @@
                             <div class="contact-method-icon"><i data-lucide="mail" style="width:20px;height:20px;"></i></div>
                             <div class="contact-method-text">
                                 <strong>Email us</strong>
-                                <span>lawanijamal39@gmail.com</span>
+                                <span>contact@jamaldevstudio.com</span>
                             </div>
                         </div>
                         <div class="contact-method">
                             <div class="contact-method-icon"><i data-lucide="phone" style="width:20px;height:20px;"></i></div>
                             <div class="contact-method-text">
                                 <strong>Call us</strong>
-                                <span>+234 (703) 993-5124</span>
+                                <span>+1 (555) 123-4567</span>
                             </div>
                         </div>
                         <div class="contact-method">
@@ -1911,10 +1959,10 @@
                             <label for="budget">Estimated budget</label>
                             <select id="budget" name="budget">
                                 <option value="">Select budget range...</option>
-                                <option value="5k-10k">$2,000 - $10,000</option>
+                                <option value="5k-10k">$5,000 - $10,000</option>
                                 <option value="10k-25k">$10,000 - $25,000</option>
-                                <option value="25k-50k">$25,000 - $40,000</option>
-                                <option value="50k+">$40,000+</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value="50k+">$50,000+</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1941,7 +1989,26 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="logo" style="margin-bottom: 0.5rem;">
-                        <div class="logo-mark">J</div>
+                        <div class="logo-mark">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Jamal Dev Studio Logo">
+                                <defs>
+                                    <linearGradient id="logoGradFoot" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#7c5cff"/>
+                                        <stop offset="50%" stop-color="#5b8cff"/>
+                                        <stop offset="100%" stop-color="#00d4ff"/>
+                                    </linearGradient>
+                                    <linearGradient id="logoGradAccentFoot" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#00d4ff"/>
+                                        <stop offset="100%" stop-color="#00ffaa"/>
+                                    </linearGradient>
+                                </defs>
+                                <rect x="8" y="8" width="84" height="84" rx="20" ry="20" fill="none" stroke="url(#logoGradFoot)" stroke-width="3" opacity="0.9"/>
+                                <path d="M32 28 L32 62 Q32 78 48 78 L68 78" fill="none" stroke="url(#logoGradFoot)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="68" cy="78" r="4.5" fill="url(#logoGradAccentFoot)"/>
+                                <circle cx="32" cy="28" r="3" fill="url(#logoGradAccentFoot)" opacity="0.8"/>
+                                <path d="M72 32 L78 38 L72 44" fill="none" stroke="url(#logoGradAccentFoot)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+                            </svg>
+                        </div>
                         <div class="logo-text">
                             <span class="brand">JAMAL DEV</span>
                             <span class="sub">Studio</span>
@@ -2016,12 +2083,10 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 
-            // Particles - fewer on mobile
             const particleCount = isMobile ? 400 : (isTablet ? 800 : 1200);
             const particleGeometry = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
-            const sizes = new Float32Array(particleCount);
 
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
@@ -2029,18 +2094,14 @@
                 positions[i3 + 1] = (Math.random() - 0.5) * 120;
                 positions[i3 + 2] = (Math.random() - 0.5) * 80;
 
-                // Color gradient: purple to cyan
                 const mixFactor = Math.random();
-                colors[i3] = 0.49 * (1 - mixFactor) + 0.0 * mixFactor;     // R
-                colors[i3 + 1] = 0.36 * (1 - mixFactor) + 0.83 * mixFactor; // G
-                colors[i3 + 2] = 1.0 * (1 - mixFactor) + 1.0 * mixFactor;   // B
-
-                sizes[i] = Math.random() * 0.15 + 0.05;
+                colors[i3] = 0.49 * (1 - mixFactor) + 0.0 * mixFactor;
+                colors[i3 + 1] = 0.36 * (1 - mixFactor) + 0.83 * mixFactor;
+                colors[i3 + 2] = 1.0 * (1 - mixFactor) + 1.0 * mixFactor;
             }
 
             particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
             particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-            particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
             const particleMaterial = new THREE.PointsMaterial({
                 size: isMobile ? 0.12 : 0.15,
@@ -2054,7 +2115,6 @@
             particles = new THREE.Points(particleGeometry, particleMaterial);
             scene.add(particles);
 
-            // Floating geometries - fewer on mobile
             const geoMaterial1 = new THREE.MeshBasicMaterial({ 
                 color: 0x7c5cff, 
                 wireframe: true,
@@ -2090,16 +2150,13 @@
                 geometries.push({ mesh: torusKnot, basePos: { x: -12, y: -12 }, speed: 0.6 });
             }
 
-            // Lights (subtle)
             const ambientLight = new THREE.AmbientLight(0x7c5cff, 0.3);
             scene.add(ambientLight);
 
-            // Scroll listener - passive for performance
             window.addEventListener('scroll', () => {
                 targetScroll = window.scrollY;
             }, { passive: true });
 
-            // Mouse listener
             document.addEventListener('mousemove', (e) => {
                 targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
                 targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -2107,7 +2164,6 @@
 
             animate();
 
-            // Resize handler with debounce
             let resizeTimeout;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimeout);
@@ -2123,28 +2179,22 @@
         function animate() {
             animationId = requestAnimationFrame(animate);
 
-            // Smooth lerp for scroll (no lag, no flicker)
             currentScroll += (targetScroll - currentScroll) * 0.1;
             currentMouseX += (targetMouseX - currentMouseX) * 0.05;
             currentMouseY += (targetMouseY - currentMouseY) * 0.05;
 
-            // Scroll-driven rotation (360° sync)
             const scrollRotation = currentScroll * 0.0008;
             particles.rotation.y = scrollRotation;
             particles.rotation.x = scrollRotation * 0.3;
 
-            // Mouse parallax on camera
             camera.position.x = currentMouseX * 2;
             camera.position.y = -currentMouseY * 2;
             camera.lookAt(0, 0, 0);
 
-            // Animate geometries - scroll + time based
             const time = performance.now() * 0.0005;
             geometries.forEach((item, idx) => {
                 const { mesh, basePos, speed } = item;
-                // Scroll-driven vertical movement
                 mesh.position.y = basePos.y + Math.sin(currentScroll * 0.002 + idx) * 2;
-                // Time-based rotation
                 mesh.rotation.x = time * speed + currentScroll * 0.001;
                 mesh.rotation.y = time * speed * 0.7 + currentScroll * 0.0008;
             });
@@ -2168,7 +2218,7 @@
 
         function buildGallery() {
             const track = document.getElementById('galleryTrack');
-            const allProjects = [...projects, ...projects]; // Duplicate for seamless loop
+            const allProjects = [...projects, ...projects];
             track.innerHTML = allProjects.map(p => `
                 <div class="gallery-item">
                     <div class="project-visual ${p.class}">
@@ -2199,7 +2249,6 @@
                     </div>
                 </div>
             `).join('');
-            // Re-init icons
             if (window.lucide) lucide.createIcons();
         }
 
@@ -2237,7 +2286,6 @@
         // ============================================
         // SCROLL EFFECTS
         // ============================================
-        let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             const currentScroll = window.scrollY;
@@ -2247,9 +2295,7 @@
             } else {
                 nav.classList.remove('scrolled');
             }
-            lastScroll = currentScroll;
 
-            // Reveal animations
             document.querySelectorAll('.reveal').forEach(el => {
                 const rect = el.getBoundingClientRect();
                 if (rect.top < window.innerHeight - 80) {
@@ -2290,7 +2336,6 @@
                 document.getElementById('loader').classList.add('hidden');
             }, 800);
 
-            // Initial reveal check
             setTimeout(() => {
                 document.querySelectorAll('.reveal').forEach(el => {
                     const rect = el.getBoundingClientRect();
@@ -2301,13 +2346,11 @@
             }, 200);
         });
 
-        // Handle browser back/forward
         window.addEventListener('popstate', () => {
             const hash = window.location.hash.replace('#', '') || 'home';
             navigateTo(hash);
         });
 
-        // Check initial hash
         const initialHash = window.location.hash.replace('#', '');
         if (initialHash && document.getElementById(`page-${initialHash}`)) {
             setTimeout(() => navigateTo(initialHash), 100);
